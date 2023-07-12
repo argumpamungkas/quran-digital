@@ -93,9 +93,16 @@ class DetailSurahView extends GetView<DetailSurahController> {
                             GestureDetector(
                               onTap: () {
                                 Get.defaultDialog(
-                                    title:
-                                        "Tafsir Ayat ${verse.number!.inSurah}",
-                                    middleText: "${verse.tafsir?.id?.short}");
+                                  title: "Tafsir Ayat ${verse.number!.inSurah}",
+                                  middleText: "",
+                                  content: Container(
+                                    constraints:
+                                        const BoxConstraints(maxHeight: 300),
+                                    child: SingleChildScrollView(
+                                        child:
+                                            Text("${verse.tafsir?.id?.short}")),
+                                  ),
+                                );
                               },
                               child: Container(
                                 color: const Color.fromARGB(0, 255, 255, 255),
