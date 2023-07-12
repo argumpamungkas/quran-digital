@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -8,23 +10,48 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    double heightStatusBar = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ALL SURAH'),
-        centerTitle: true,
-        backgroundColor: Colors.green[300],
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.only(
+          top: 10 + heightStatusBar,
+          left: 10,
+          right: 10,
+          bottom: 10,
+        ),
         child: Column(
           children: [
             Container(
+              alignment: Alignment.centerLeft,
+              margin: const EdgeInsets.only(left: 5),
+              child: Text(
+                "Assalamu'alakum",
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: const EdgeInsets.only(left: 5),
+              child: Text(
+                controller.nameUser.value.toUpperCase(),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 15),
+            Container(
               width: Get.width,
-              height: 200,
+              height: 150,
               decoration: BoxDecoration(
-                color: Colors.green[800],
+                gradient: LinearGradient(colors: [
+                  Color(0xFFAAC8A7),
+                  Color(0xFFC3EDC0),
+                ]),
                 borderRadius: BorderRadius.circular(20),
               ),
             ),

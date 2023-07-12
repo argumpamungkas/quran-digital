@@ -14,17 +14,17 @@ class DetailSurahView extends GetView<DetailSurahController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
       body: ListView(
         children: [
-          IconButton(
-            onPressed: () => Get.back(),
-            icon: const Icon(Icons.arrow_back),
-            alignment: Alignment.topLeft,
-          ),
           Card(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Column(
                 children: [
                   Text(
@@ -49,8 +49,14 @@ class DetailSurahView extends GetView<DetailSurahController> {
               future: controller.getDetailSurah(dataSurah.number.toString()),
               builder: (context, snap) {
                 if (snap.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: LinearProgressIndicator(),
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: LinearProgressIndicator(
+                        color: Colors.green,
+                        backgroundColor: Colors.green.shade100,
+                      ),
+                    ),
                   );
                 }
                 if (!snap.hasData) {
@@ -84,26 +90,45 @@ class DetailSurahView extends GetView<DetailSurahController> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              "${verse.text!.arab}",
-                              textAlign: TextAlign.end,
-                              style: const TextStyle(
-                                fontSize: 26,
+                            GestureDetector(
+                              onTap: () {
+                                Get.defaultDialog(
+                                    title:
+                                        "Tafsir Ayat ${verse.number!.inSurah}",
+                                    middleText: "${verse.tafsir?.id?.short}");
+                              },
+                              child: Container(
+                                color: const Color.fromARGB(0, 255, 255, 255),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "${verse.text!.arab}",
+                                      textAlign: TextAlign.end,
+                                      style: const TextStyle(
+                                        fontSize: 26,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      "${verse.text!.transliteration!.en}",
+                                      style: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Text(
+                                        "${verse.translation!.id}",
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                  ],
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 5),
-                            Text(
-                              "${verse.text!.transliteration!.en}",
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            Text(
-                              "${verse.translation!.id}",
-                              textAlign: TextAlign.justify,
-                            ),
-                            const SizedBox(height: 5),
                           ],
                         ),
                       ),
