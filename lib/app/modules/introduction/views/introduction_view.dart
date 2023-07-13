@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:quran_app/app/routes/app_pages.dart';
 
 import '../controllers/introduction_controller.dart';
 
@@ -11,31 +10,34 @@ class IntroductionView extends GetView<IntroductionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[100],
+      backgroundColor: Colors.green[50],
       body: Center(
         child: SingleChildScrollView(
           reverse: true,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 "Al-Qur'an",
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green[800],
+                ),
               ),
-              const SizedBox(height: 10),
-              Container(
+              SizedBox(
                   height: 300,
                   width: 300,
                   child:
                       LottieBuilder.asset("assets/lotties/quran-lottie.json")),
               const Text(
                 "Lewatilah hari-harimu denganku,",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               const Text(
                 "Kupastikan akan ada keberkahan disetiap langkahmu.",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
@@ -45,6 +47,7 @@ class IntroductionView extends GetView<IntroductionController> {
                 child: TextField(
                   controller: controller.nameUserC,
                   autocorrect: false,
+                  cursorColor: Colors.green,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(20),
                     focusedBorder: OutlineInputBorder(
@@ -58,6 +61,7 @@ class IntroductionView extends GetView<IntroductionController> {
                           const BorderSide(color: Colors.green, width: 1),
                     ),
                     hintText: "Masukkan Nama Antum",
+                    hintStyle: const TextStyle(color: Colors.grey),
                   ),
                 ),
               ),

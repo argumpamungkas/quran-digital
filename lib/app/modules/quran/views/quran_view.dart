@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:quran_app/app/routes/app_pages.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../data/models/surah.dart';
 import '../controllers/quran_controller.dart';
@@ -20,8 +21,33 @@ class QuranView extends GetView<QuranController> {
         future: controller.getAllSurah(),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return ListView.builder(
+              itemCount: 15,
+              itemBuilder: (context, index) {
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey.shade200,
+                  highlightColor: Colors.grey.shade400,
+                  child: ListTile(
+                    leading: const CircleAvatar(),
+                    title: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      height: 20,
+                      width: 80,
+                      color: Colors.grey,
+                    ),
+                    subtitle: Container(
+                      height: 20,
+                      width: 100,
+                      color: Colors.grey,
+                    ),
+                    trailing: Container(
+                      height: 30,
+                      width: 80,
+                      color: Colors.grey,
+                    ),
+                  ),
+                );
+              },
             );
           }
           if (!snap.hasData) {

@@ -11,6 +11,7 @@ dependencies:
   http: 1.1.0
   lottie: 2.4.0
   get_storage: 2.1.1
+  shimmer: 3.0.0
   flutter: 
     sdk: flutter
 

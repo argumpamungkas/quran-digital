@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quran_app/app/data/models/quotes.dart';
 import 'package:quran_app/app/routes/app_pages.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -14,16 +15,16 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     double heightStatusBar = MediaQuery.of(context).padding.top;
-
     return Scaffold(
+      backgroundColor: Colors.green[50],
       body: Padding(
         padding: EdgeInsets.only(
-          top: 10 + heightStatusBar,
-          left: 10,
-          right: 10,
+          top: heightStatusBar - 10,
+          left: 20,
+          right: 20,
           bottom: 10,
         ),
-        child: Column(
+        child: ListView(
           children: [
             Container(
               alignment: Alignment.centerLeft,
@@ -48,46 +49,75 @@ class HomeView extends GetView<HomeController> {
               width: Get.width,
               height: 150,
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Color(0xFFAAC8A7),
-                  Color(0xFFC3EDC0),
-                ]),
-                borderRadius: BorderRadius.circular(20),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: const LinearGradient(colors: [
+                    Color(0xffA7D7C5),
+                    Color(0xFFC3EDC0),
+                  ]),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0xffA7D7C5),
+                      offset: Offset(0, 10),
+                      blurRadius: 15,
+                      spreadRadius: 1,
+                    )
+                  ]),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
                   child: GestureDetector(
                     onTap: () => Get.toNamed(Routes.QURAN),
                     child: Container(
-                      height: 100,
+                      height: 150,
                       decoration: BoxDecoration(
                         color: Colors.green[300],
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xffC0DEFF),
+                            Color(0xff82AAE3),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0xff82AAE3),
+                            offset: Offset(0, 15),
+                            blurRadius: 25,
+                          ),
+                        ],
                       ),
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Flexible(
-                            flex: 2,
-                            child: Center(
-                              child: Text(
-                                "Al - Qur'an",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
-                              ),
+                          Container(
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(30, 0, 0, 0),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                            ),
+                            child: Image.asset(
+                              "assets/images/quran.png",
+                              width: 70,
                             ),
                           ),
-                          const SizedBox(width: 5),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              child: Image.asset(
-                                "assets/images/quran.png",
-                                width: 70,
+                          const SizedBox(height: 10),
+                          const Center(
+                            child: Text(
+                              "Al - Qur'an",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -96,42 +126,59 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 30),
                 Flexible(
                   child: GestureDetector(
-                    onTap: () => Get.toNamed(Routes.DAILY_PRAYER),
+                    onTap: () => Get.toNamed(Routes.QURAN),
                     child: Container(
-                      height: 100,
+                      height: 150,
                       decoration: BoxDecoration(
-                        color: Colors.blueGrey[600],
-                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.green[300],
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xffBFDCE5),
+                            Color(0xff6096B4),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0xff6096B4),
+                            offset: Offset(0, 15),
+                            blurRadius: 25,
+                          ),
+                        ],
                       ),
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              child: Image.asset(
-                                "assets/images/daily-prayer.png",
-                                width: 70,
-                                color: Colors.white,
-                              ),
+                          Container(
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(30, 200, 200, 200),
+                                  offset: Offset(0, 5),
+                                  blurRadius: 10,
+                                ),
+                              ],
+                            ),
+                            child: Image.asset(
+                              "assets/images/daily-prayer.png",
+                              width: 70,
+                              color: Colors.white,
                             ),
                           ),
-                          const SizedBox(width: 5),
-                          const Flexible(
-                            flex: 2,
-                            child: Center(
-                              child: Text(
-                                "Doa\nSehari Hari",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
+                          const SizedBox(height: 10),
+                          const Center(
+                            child: Text(
+                              "Doa Sehari - Hari",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                ),
-                              ),
+                                  color: Colors.white),
                             ),
                           ),
                         ],
@@ -141,29 +188,29 @@ class HomeView extends GetView<HomeController> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             const Text(
-              "Daily Reminder",
-              textAlign: TextAlign.start,
+              "✨ Daily Reminder ✨",
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             FutureBuilder(
               future: controller.getQuote(),
               builder: (context, snap) {
                 if (snap.connectionState == ConnectionState.waiting) {
-                  return Container(
-                    width: Get.width - 50,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(
-                        width: 5,
-                        color: Colors.blueGrey,
+                  return Shimmer.fromColors(
+                    baseColor: const Color(0xffFFFAD7),
+                    highlightColor: const Color(0xffFFE4A7),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      width: Get.width,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                            width: 10, color: Colors.yellow.shade300),
+                        color: Colors.grey,
                       ),
-                    ),
-                    child: const Center(
-                      child: Text("Loading..."),
                     ),
                   );
                 }
@@ -173,10 +220,14 @@ class HomeView extends GetView<HomeController> {
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(
-                        width: 5,
-                        color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(20),
+                      border:
+                          Border.all(width: 2, color: Colors.yellow.shade300),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xffFFFAD7),
+                          Color(0xffFFE4A7),
+                        ],
                       ),
                     ),
                     child: const Center(
@@ -190,10 +241,13 @@ class HomeView extends GetView<HomeController> {
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(
-                      width: 5,
-                      color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(width: 2, color: Colors.yellow.shade300),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xffFFFAD7),
+                        Color(0xffFFE4A7),
+                      ],
                     ),
                   ),
                   child: Column(
