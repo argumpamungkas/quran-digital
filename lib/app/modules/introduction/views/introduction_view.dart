@@ -10,7 +10,7 @@ class IntroductionView extends GetView<IntroductionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[50],
+      backgroundColor: Colors.deepPurple[50],
       body: Center(
         child: SingleChildScrollView(
           reverse: true,
@@ -22,7 +22,7 @@ class IntroductionView extends GetView<IntroductionController> {
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green[800],
+                  color: Colors.deepPurple[800],
                 ),
               ),
               SizedBox(
@@ -30,14 +30,14 @@ class IntroductionView extends GetView<IntroductionController> {
                   width: 300,
                   child:
                       LottieBuilder.asset("assets/lotties/quran-lottie.json")),
-              const Text(
+              Text(
                 "Lewatilah hari-harimu denganku,",
-                style: TextStyle(fontSize: 20, color: Colors.grey),
+                style: TextStyle(fontSize: 20, color: Colors.grey.shade500),
                 textAlign: TextAlign.center,
               ),
-              const Text(
+              Text(
                 "Kupastikan akan ada keberkahan disetiap langkahmu.",
-                style: TextStyle(fontSize: 20, color: Colors.grey),
+                style: TextStyle(fontSize: 20, color: Colors.grey.shade500),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
@@ -47,18 +47,18 @@ class IntroductionView extends GetView<IntroductionController> {
                 child: TextField(
                   controller: controller.nameUserC,
                   autocorrect: false,
-                  cursorColor: Colors.green,
+                  cursorColor: Colors.deepPurple,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(20),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide:
-                          const BorderSide(color: Colors.green, width: 1),
+                          const BorderSide(color: Colors.deepPurple, width: 1),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide:
-                          const BorderSide(color: Colors.green, width: 1),
+                          const BorderSide(color: Colors.deepPurple, width: 1),
                     ),
                     hintText: "Masukkan Nama Antum",
                     hintStyle: const TextStyle(color: Colors.grey),
@@ -74,7 +74,7 @@ class IntroductionView extends GetView<IntroductionController> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  backgroundColor: Colors.green[600],
+                  backgroundColor: Colors.deepPurple[600],
                   padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 ),

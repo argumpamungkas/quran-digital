@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/asmaul_husna/bindings/asmaul_husna_binding.dart';
+import '../modules/asmaul_husna/views/asmaul_husna_view.dart';
 import '../modules/daily_prayer/bindings/daily_prayer_binding.dart';
 import '../modules/daily_prayer/views/daily_prayer_view.dart';
 import '../modules/detail_surah/bindings/detail_surah_binding.dart';
@@ -54,7 +56,13 @@ class AppPages {
       name: _Paths.DAILY_PRAYER,
       page: () => const DailyPrayerView(),
       binding: DailyPrayerBinding(),
-      transition: Transition.downToUp,
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.ASMAUL_HUSNA,
+      page: () => const AsmaulHusnaView(),
+      binding: AsmaulHusnaBinding(),
+      transition: Transition.rightToLeft,
     ),
   ];
 }

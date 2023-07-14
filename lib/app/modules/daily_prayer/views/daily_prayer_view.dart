@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:quran_app/app/data/models/daily_prayer.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../controllers/daily_prayer_controller.dart';
 
@@ -10,11 +11,11 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blueGrey.shade200,
+        backgroundColor: Colors.deepPurple.shade50,
         appBar: AppBar(
           title: const Text('Doa Sehari - Hari'),
           centerTitle: true,
-          backgroundColor: Colors.blueGrey.shade200,
+          backgroundColor: Colors.deepPurple.shade50,
           foregroundColor: Colors.black,
           elevation: 0,
         ),
@@ -24,21 +25,22 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
               if (snap.connectionState == ConnectionState.waiting) {
                 return GridView.builder(
                   padding: const EdgeInsets.all(10),
-                  itemCount: 9,
+                  itemCount: 8,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                    childAspectRatio: 4 / 2.5,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 4 / 1.5,
                   ),
                   itemBuilder: (context, index) {
-                    return Container(
-                      height: 10,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          width: 2,
-                          color: Colors.blueGrey.shade400,
+                    return Shimmer.fromColors(
+                      baseColor: Color(0xffB08BBB),
+                      highlightColor: Color(0xffE3ACF9),
+                      child: Container(
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     );
@@ -54,10 +56,10 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
                 padding: const EdgeInsets.all(10),
                 itemCount: snap.data?.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  childAspectRatio: 4 / 2.5,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 4 / 1.5,
                 ),
                 itemBuilder: (context, index) {
                   DailyPrayer dailyPrayer = snap.data![index];
@@ -94,16 +96,18 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           width: 2,
-                          color: Colors.blueGrey.shade400,
+                          color: Color(0xff85586F),
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(10),
                         child: Center(
                           child: Text(
                             "${dailyPrayer.doa}",
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 16),
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
