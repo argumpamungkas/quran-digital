@@ -19,9 +19,11 @@ class DetailSurahController extends GetxController {
         DataDetailSurah dataDetailSurah = detailSurah.data as DataDetailSurah;
         return dataDetailSurah;
       } else {
-        throw Exception('Failde to load data');
+        Get.snackbar("Gagal Memuat", "Cek koneksi anda");
+        throw Exception('Failed to load data');
       }
     } on SocketException {
+      Get.snackbar("Gagal Memuat", "Cek koneksi anda");
       throw Exception('No Internet Connection');
     }
   }

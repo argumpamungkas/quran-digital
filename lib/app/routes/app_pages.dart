@@ -10,6 +10,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/introduction/bindings/introduction_binding.dart';
 import '../modules/introduction/views/introduction_view.dart';
+import '../modules/last_read/bindings/last_read_binding.dart';
+import '../modules/last_read/views/last_read_view.dart';
 import '../modules/quran/bindings/quran_binding.dart';
 import '../modules/quran/views/quran_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
@@ -62,6 +64,12 @@ class AppPages {
       name: _Paths.ASMAUL_HUSNA,
       page: () => const AsmaulHusnaView(),
       binding: AsmaulHusnaBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.LAST_READ,
+      page: () => const LastReadView(),
+      binding: LastReadBinding(),
       transition: Transition.rightToLeft,
     ),
   ];

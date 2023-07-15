@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:quran_app/app/constant/color.dart';
 import 'package:quran_app/app/data/models/surah.dart';
 
 import '../controllers/detail_surah_controller.dart';
@@ -14,49 +15,95 @@ class DetailSurahView extends GetView<DetailSurahController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
       body: ListView(
         children: [
-          Card(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-              child: Column(
-                children: [
-                  Text(
-                    "${dataSurah.name!.transliteration!.id}",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 26),
+          GestureDetector(
+            onTap: () => Get.defaultDialog(
+                title: "TAFSIR",
+                titlePadding: const EdgeInsets.only(top: 15, bottom: 5),
+                content: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  constraints: const BoxConstraints(
+                    maxHeight: 300,
                   ),
-                  Text(
-                    "${dataSurah.name!.translation!.id}",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      "${dataSurah.tafsir?.id}",
+                      textAlign: TextAlign.justify,
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Surat ke - ${dataSurah.number} | ${dataSurah.numberOfVerses} Ayat | ${dataSurah.revelation!.id}",
+                )),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: const LinearGradient(
+                    colors: [
+                      puprleLight,
+                      puprleSolid,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                ],
+                  boxShadow: const [
+                    BoxShadow(
+                      color: puprleSolid,
+                      offset: Offset(0, 10),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                  child: Column(
+                    children: [
+                      Text(
+                        "${dataSurah.name!.transliteration!.id}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 26,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        "${dataSurah.name!.translation!.id}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Surat ke - ${dataSurah.number} | ${dataSurah.numberOfVerses} Ayat | ${dataSurah.revelation!.id}",
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
+          const SizedBox(height: 20),
           FutureBuilder(
               future: controller.getDetailSurah(dataSurah.number.toString()),
               builder: (context, snap) {
                 if (snap.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: LinearProgressIndicator(
-                        color: Colors.green,
-                        backgroundColor: Colors.green.shade100,
-                      ),
-                    ),
+                  return const LinearProgressIndicator(
+                    color: puprleLight,
+                    backgroundColor: puprleSolid,
                   );
                 }
                 if (!snap.hasData) {
@@ -64,83 +111,150 @@ class DetailSurahView extends GetView<DetailSurahController> {
                     child: Text("Tidak ada data"),
                   );
                 }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: dataSurah.numberOfVerses ?? 0,
-                  itemBuilder: (context, index) {
-                    Verse verse = snap.data!.verses![index];
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("${verse.number!.inSurah}"),
-                                const Row(
-                                  children: [
-                                    Icon(Icons.bookmark_add_outlined),
-                                    Icon(Icons.play_arrow),
-                                  ],
-                                ),
-                              ],
+                return Column(
+                  children: [
+                    (snap.data?.preBismillah?.text?.arab == null)
+                        ? const SizedBox(height: 10)
+                        : Text(
+                            "${snap.data?.preBismillah?.text?.arab}",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepPurple.shade800,
                             ),
-                            const SizedBox(height: 10),
-                            GestureDetector(
-                              onTap: () {
-                                Get.defaultDialog(
-                                  title: "Tafsir Ayat ${verse.number!.inSurah}",
-                                  middleText: "",
-                                  content: Container(
-                                    constraints:
-                                        const BoxConstraints(maxHeight: 300),
-                                    child: SingleChildScrollView(
-                                        child:
-                                            Text("${verse.tafsir?.id?.short}")),
+                          ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: dataSurah.numberOfVerses ?? 0,
+                      itemBuilder: (context, index) {
+                        Verse verse = snap.data!.verses![index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.deepPurple.shade800
+                                      .withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 2,
+                                    horizontal: 5,
                                   ),
-                                );
-                              },
-                              child: Container(
-                                color: const Color.fromARGB(0, 255, 255, 255),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "${verse.text!.arab}",
-                                      textAlign: TextAlign.end,
-                                      style: const TextStyle(
-                                        fontSize: 26,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        height: 35,
+                                        width: 35,
+                                        child: Stack(
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/octagon-list.png",
+                                              color: Colors.deepPurple.shade800,
+                                            ),
+                                            Center(
+                                              child: Text(
+                                                "${verse.number!.inSurah}",
+                                                style: const TextStyle(
+                                                    fontSize: 10),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      "${verse.text!.transliteration!.en}",
-                                      style: const TextStyle(
-                                        fontStyle: FontStyle.italic,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              print("bookmark");
+                                            },
+                                            icon: const Icon(
+                                                Icons.bookmark_add_outlined),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              print("play");
+                                            },
+                                            icon: const Icon(Icons.play_circle),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Container(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Text(
-                                        "${verse.translation!.id}",
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                              const SizedBox(height: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.defaultDialog(
+                                    title:
+                                        "Tafsir Ayat ${verse.number!.inSurah}",
+                                    middleText: "",
+                                    content: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      constraints: const BoxConstraints(
+                                        maxHeight: 300,
+                                      ),
+                                      child: SingleChildScrollView(
+                                        child:
+                                            Text("${verse.tafsir?.id?.short}"),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "${verse.text!.arab}",
+                                        textAlign: TextAlign.end,
+                                        style: const TextStyle(
+                                          fontSize: 26,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        "${verse.text!.transliteration!.en}",
+                                        style: const TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 15),
+                                      Container(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Text(
+                                          "${verse.translation!.id}",
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 );
               }),
         ],

@@ -11,13 +11,9 @@ class AsmaulHusnaView extends GetView<AsmaulHusnaController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.deepPurple.shade50,
         appBar: AppBar(
           title: const Text('Asmaul Husna'),
           centerTitle: true,
-          elevation: 0,
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.deepPurple.shade50,
         ),
         body: FutureBuilder(
             future: controller.getAsmaulHusna(),
@@ -29,7 +25,7 @@ class AsmaulHusnaView extends GetView<AsmaulHusnaController> {
                     crossAxisCount: 3,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 5,
-                    childAspectRatio: 5 / 3,
+                    childAspectRatio: 5 / 2.5,
                   ),
                   itemBuilder: (context, index) {
                     return Shimmer.fromColors(
@@ -54,7 +50,7 @@ class AsmaulHusnaView extends GetView<AsmaulHusnaController> {
                   crossAxisCount: 3,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
-                  childAspectRatio: 5 / 3,
+                  childAspectRatio: 5 / 2.5,
                 ),
                 itemBuilder: (context, index) {
                   DataAsmaulHusna dataAsmaulHusna = snap.data![index];
@@ -89,7 +85,8 @@ class AsmaulHusnaView extends GetView<AsmaulHusnaController> {
                           "${dataAsmaulHusna.latin}",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                              fontSize: 16, color: Colors.white),
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

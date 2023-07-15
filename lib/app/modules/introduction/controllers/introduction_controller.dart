@@ -15,13 +15,13 @@ class IntroductionController extends GetxController {
       Get.offAllNamed(Routes.HOME);
     } else {
       Get.snackbar(
-        "Terjadi Kesalahan",
-        "Isi Nama Antum",
+        "Gagal Masuk",
+        "Harap masukkan nama antum",
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(0),
         borderRadius: 0,
-        backgroundColor: Colors.red[800],
-        colorText: Colors.white,
+        backgroundColor: Colors.yellow[600],
+        colorText: Colors.black,
       );
     }
   }

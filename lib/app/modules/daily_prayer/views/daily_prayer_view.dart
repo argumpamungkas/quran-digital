@@ -11,13 +11,9 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.deepPurple.shade50,
         appBar: AppBar(
           title: const Text('Doa Sehari - Hari'),
           centerTitle: true,
-          backgroundColor: Colors.deepPurple.shade50,
-          foregroundColor: Colors.black,
-          elevation: 0,
         ),
         body: FutureBuilder(
             future: controller.getAllDailyPrayer(),

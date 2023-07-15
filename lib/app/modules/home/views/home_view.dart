@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:quran_app/app/constant/color.dart';
 import 'package:quran_app/app/data/models/quotes.dart';
 import 'package:quran_app/app/routes/app_pages.dart';
 import 'package:shimmer/shimmer.dart';
@@ -16,11 +15,9 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     double heightStatusBar = MediaQuery.of(context).padding.top;
     return Scaffold(
-      backgroundColor: Colors.deepPurple[50],
       body: Padding(
         padding: EdgeInsets.only(
           top: heightStatusBar - 10,
-          bottom: 5,
         ),
         child: ListView(
           children: [
@@ -50,12 +47,12 @@ class HomeView extends GetView<HomeController> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: const LinearGradient(colors: [
-                    Color(0xffD7BBF5),
-                    Color(0xFF9681EB),
+                    puprleLight,
+                    puprleSolid,
                   ]),
                   boxShadow: const [
                     BoxShadow(
-                      color: Color(0xffD7BBF5),
+                      color: puprleLight,
                       offset: Offset(0, 10),
                       blurRadius: 15,
                       spreadRadius: 1,
@@ -63,34 +60,40 @@ class HomeView extends GetView<HomeController> {
                   ]),
             ),
             const SizedBox(height: 20),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              width: Get.width,
-              height: 50,
-              decoration: BoxDecoration(
-                  color: const Color(0xffECC9EE),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0xffC4B0FF),
-                      offset: Offset(0, 5),
-                      blurRadius: 10,
-                    )
-                  ]),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Last",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Al-Ikhlas",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  Icon(Icons.arrow_circle_right),
-                ],
+            GestureDetector(
+              onTap: () => Get.toNamed(Routes.LAST_READ),
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                width: Get.width,
+                decoration: BoxDecoration(
+                    color: puprleSolid,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: puprleSolid,
+                        offset: Offset(0, 5),
+                        blurRadius: 10,
+                      )
+                    ]),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Terakhir\ndibaca",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    ),
+                    Text(
+                      "Surat Al-Baqarah ayat 5",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Icon(Icons.arrow_circle_right),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -165,19 +168,18 @@ class HomeView extends GetView<HomeController> {
                           width: Get.width,
                           margin: const EdgeInsets.only(left: 20),
                           decoration: BoxDecoration(
-                            color: Colors.green[300],
                             borderRadius: BorderRadius.circular(20),
                             gradient: const LinearGradient(
                               colors: [
-                                Color(0xffDEB6AB),
-                                Color(0xff85586F),
+                                dailyPrayerLight,
+                                dailyPrayerSolid,
                               ],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                             ),
                             boxShadow: const [
                               BoxShadow(
-                                color: Color(0xff85586F),
+                                color: dailyPrayerSolid,
                                 offset: Offset(0, 15),
                                 blurRadius: 25,
                               ),
@@ -231,19 +233,18 @@ class HomeView extends GetView<HomeController> {
                           height: 120,
                           width: Get.width,
                           decoration: BoxDecoration(
-                            color: Colors.green[300],
                             borderRadius: BorderRadius.circular(20),
                             gradient: const LinearGradient(
                               colors: [
-                                Color(0xffE5BEEC),
-                                Color(0xff917FB3),
+                                asmaulHusnaLight,
+                                asmaulHusnaSolid,
                               ],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                             ),
                             boxShadow: const [
                               BoxShadow(
-                                color: Color(0xff917FB3),
+                                color: asmaulHusnaSolid,
                                 offset: Offset(0, 15),
                                 blurRadius: 25,
                               ),
@@ -289,19 +290,18 @@ class HomeView extends GetView<HomeController> {
                           width: Get.width,
                           margin: const EdgeInsets.only(right: 20),
                           decoration: BoxDecoration(
-                            color: Colors.green[300],
                             borderRadius: BorderRadius.circular(20),
                             gradient: const LinearGradient(
                               colors: [
-                                Color(0xffA8A4CE),
-                                Color(0xff495C83),
+                                bookmarkLight,
+                                bookmarkSolid,
                               ],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                             ),
                             boxShadow: const [
                               BoxShadow(
-                                color: Color(0xff2B4865),
+                                color: bookmarkSolid,
                                 offset: Offset(0, 15),
                                 blurRadius: 25,
                               ),
