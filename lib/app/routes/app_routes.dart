@@ -11,6 +11,7 @@ abstract class Routes {
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const ASMAUL_HUSNA = _Paths.ASMAUL_HUSNA;
   static const LAST_READ = _Paths.LAST_READ;
+  static const DETAIL_JUZ = _Paths.DETAIL_JUZ;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const SPLASH_SCREEN = '/splash-screen';
   static const ASMAUL_HUSNA = '/asmaul-husna';
   static const LAST_READ = '/last-read';
+  static const DETAIL_JUZ = '/detail-juz';
 }
