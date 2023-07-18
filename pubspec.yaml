@@ -14,6 +14,7 @@ dependencies:
   shimmer: 3.0.0
   geolocator: 9.0.2
   geocoding: 2.1.0
+  just_audio: 0.9.34
   flutter: 
     sdk: flutter
 

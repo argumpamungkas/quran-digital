@@ -39,18 +39,19 @@ class QuranController extends GetxController {
       Uri url = Uri.parse("${BaseUrl.quran}/juz/$i");
       var resp = await http.get(url);
 
+      while (resp.statusCode == 429) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        resp = await http.get(url);
+        print("ini I ke - $i ");
+      }
+
       try {
         if (resp.statusCode == 200) {
           var response = jsonDecode(resp.body);
           Juz juz = Juz.fromJson(response);
           dataJuz.add(juz.data as DataJuz);
           print('add $i');
-        } else if (resp.statusCode == 429) {
-          await Future.delayed(const Duration(seconds: 3));
-          i--;
-          print("dipanggil");
         } else {
-          print(resp.body);
           throw Exception("Failed to load data");
         }
       } on SocketException {

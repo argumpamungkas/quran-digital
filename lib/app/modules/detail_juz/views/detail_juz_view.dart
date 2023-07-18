@@ -5,6 +5,7 @@ import 'package:quran_app/app/data/models/juz.dart' as juz;
 
 import '../../../constant/color.dart';
 import '../../../data/models/surah.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/detail_juz_controller.dart';
 
 class DetailJuzView extends GetView<DetailJuzController> {
@@ -15,16 +16,20 @@ class DetailJuzView extends GetView<DetailJuzController> {
 
   @override
   Widget build(BuildContext context) {
-    dataSurahInJuz.forEach(
-      (element) {
-        print(element.name?.transliteration?.id);
-      },
-    );
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.toNamed(Routes.BOOKMARK);
+            },
+            icon: const Icon(Icons.book),
+            color: Colors.deepPurple.shade800,
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -96,6 +101,7 @@ class DetailJuzView extends GetView<DetailJuzController> {
                   controller.indexNameSurah++;
                 }
               }
+
               return Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -107,6 +113,22 @@ class DetailJuzView extends GetView<DetailJuzController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    (verseJuz.number?.inSurah == 1)
+                        ? Container(
+                            color: Colors.deepPurple.shade200,
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            child: Center(
+                              child: Text(
+                                "${dataSurahInJuz[controller.indexNameSurah].name?.transliteration?.id}",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.deepPurple.shade800.withOpacity(0.1),
@@ -135,7 +157,10 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                       Center(
                                         child: Text(
                                           "${verseJuz.number!.inSurah}",
-                                          style: const TextStyle(fontSize: 10),
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -149,22 +174,62 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                 )
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    print("bookmark");
-                                  },
-                                  icon: const Icon(Icons.bookmark_add_outlined),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    print("play");
-                                  },
-                                  icon: const Icon(Icons.play_circle),
-                                ),
-                              ],
+                            GetBuilder<DetailJuzController>(
+                              builder: (c) => Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      print("bookmark");
+                                    },
+                                    icon:
+                                        const Icon(Icons.bookmark_add_outlined),
+                                  ),
+
+                                  // PLAY AUDIO
+                                  (verseJuz.conditionAudio == "stop")
+                                      ? IconButton(
+                                          onPressed: () {
+                                            c.playAudio(verseJuz);
+                                          },
+                                          icon: const Icon(
+                                            Icons.play_circle_outline,
+                                          ),
+                                        )
+                                      : Row(
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                c.stopAudio(verseJuz);
+                                              },
+                                              icon: const Icon(
+                                                Icons.stop_circle_outlined,
+                                              ),
+                                            ),
+                                            (verseJuz.conditionAudio ==
+                                                    "playing")
+                                                ? IconButton(
+                                                    onPressed: () {
+                                                      c.pauseAudio(verseJuz);
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons
+                                                          .pause_circle_outline,
+                                                    ),
+                                                  )
+                                                : IconButton(
+                                                    onPressed: () {
+                                                      c.resumeAudio(verseJuz);
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.play_circle_outline,
+                                                    ),
+                                                  ),
+                                          ],
+                                        ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -182,12 +247,16 @@ class DetailJuzView extends GetView<DetailJuzController> {
                               maxHeight: 300,
                             ),
                             child: SingleChildScrollView(
-                              child: Text("${verseJuz.tafsir!.id!.short}"),
+                              child: Text(
+                                "${verseJuz.tafsir!.id!.short}",
+                                textAlign: TextAlign.justify,
+                              ),
                             ),
                           ),
                         );
                       },
-                      child: Padding(
+                      child: Container(
+                        color: Colors.white,
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,

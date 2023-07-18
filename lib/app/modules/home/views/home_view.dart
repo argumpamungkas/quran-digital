@@ -83,15 +83,24 @@ class HomeView extends GetView<HomeController> {
                   children: [
                     Text(
                       "Terakhir\ndibaca",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
                     ),
                     Text(
                       "Surat Al-Baqarah ayat 5",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
-                    Icon(Icons.arrow_circle_right),
+                    Icon(
+                      Icons.arrow_circle_right,
+                      color: Colors.white,
+                    ),
                   ],
                 ),
               ),
@@ -284,7 +293,7 @@ class HomeView extends GetView<HomeController> {
                       ),
                       const SizedBox(height: 30),
                       GestureDetector(
-                        onTap: () => Get.toNamed(Routes.DAILY_PRAYER),
+                        onTap: () => Get.toNamed(Routes.BOOKMARK),
                         child: Container(
                           height: 120,
                           width: Get.width,

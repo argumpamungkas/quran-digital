@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:quran_app/app/constant/color.dart';
 import 'package:quran_app/app/data/models/surah.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/detail_surah_controller.dart';
 import '../../../data/models/detail_surah.dart';
 
@@ -19,6 +20,15 @@ class DetailSurahView extends GetView<DetailSurahController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.toNamed(Routes.BOOKMARK);
+            },
+            icon: const Icon(Icons.book),
+            color: Colors.deepPurple.shade800,
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -168,30 +178,74 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                               child: Text(
                                                 "${verse.number!.inSurah}",
                                                 style: const TextStyle(
-                                                    fontSize: 10),
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              print("bookmark");
-                                            },
-                                            icon: const Icon(
-                                                Icons.bookmark_add_outlined),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              print("play");
-                                            },
-                                            icon: const Icon(Icons.play_circle),
-                                          ),
-                                        ],
+                                      GetBuilder<DetailSurahController>(
+                                        builder: (c) => Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                print("bookmark");
+                                              },
+                                              icon: const Icon(
+                                                  Icons.bookmark_add_outlined),
+                                            ),
+
+                                            // PLAY AUDIO
+                                            (verse.conditionAudio == "stop")
+                                                ? IconButton(
+                                                    onPressed: () {
+                                                      c.playAudio(verse);
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.play_circle_outline,
+                                                    ),
+                                                  )
+                                                : Row(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          c.stopAudio(verse);
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons
+                                                              .stop_circle_outlined,
+                                                        ),
+                                                      ),
+                                                      (verse.conditionAudio ==
+                                                              "playing")
+                                                          ? IconButton(
+                                                              onPressed: () {
+                                                                c.pauseAudio(
+                                                                    verse);
+                                                              },
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .pause_circle_outline,
+                                                              ),
+                                                            )
+                                                          : IconButton(
+                                                              onPressed: () {
+                                                                c.resumeAudio(
+                                                                    verse);
+                                                              },
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .play_circle_outline,
+                                                              ),
+                                                            ),
+                                                    ],
+                                                  ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -203,7 +257,6 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                   Get.defaultDialog(
                                     title:
                                         "Tafsir Ayat ${verse.number!.inSurah}",
-                                    middleText: "",
                                     content: Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10),
@@ -211,13 +264,16 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                         maxHeight: 300,
                                       ),
                                       child: SingleChildScrollView(
-                                        child:
-                                            Text("${verse.tafsir?.id?.short}"),
+                                        child: Text(
+                                          "${verse.tafsir?.id?.short}",
+                                          textAlign: TextAlign.justify,
+                                        ),
                                       ),
                                     ),
                                   );
                                 },
-                                child: Padding(
+                                child: Container(
+                                  color: Colors.white,
                                   padding: const EdgeInsets.all(10),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,

@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/asmaul_husna/bindings/asmaul_husna_binding.dart';
 import '../modules/asmaul_husna/views/asmaul_husna_view.dart';
+import '../modules/bookmark/bindings/bookmark_binding.dart';
+import '../modules/bookmark/views/bookmark_view.dart';
 import '../modules/daily_prayer/bindings/daily_prayer_binding.dart';
 import '../modules/daily_prayer/views/daily_prayer_view.dart';
 import '../modules/detail_juz/bindings/detail_juz_binding.dart';
@@ -79,6 +81,12 @@ class AppPages {
       page: () => DetailJuzView(),
       binding: DetailJuzBinding(),
       transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.BOOKMARK,
+      page: () => const BookmarkView(),
+      binding: BookmarkBinding(),
+      transition: Transition.downToUp,
     ),
   ];
 }

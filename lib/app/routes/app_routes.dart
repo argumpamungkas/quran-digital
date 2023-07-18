@@ -12,6 +12,7 @@ abstract class Routes {
   static const ASMAUL_HUSNA = _Paths.ASMAUL_HUSNA;
   static const LAST_READ = _Paths.LAST_READ;
   static const DETAIL_JUZ = _Paths.DETAIL_JUZ;
+  static const BOOKMARK = _Paths.BOOKMARK;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const ASMAUL_HUSNA = '/asmaul-husna';
   static const LAST_READ = '/last-read';
   static const DETAIL_JUZ = '/detail-juz';
+  static const BOOKMARK = '/bookmark';
 }
