@@ -181,7 +181,66 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      print("bookmark");
+                                      Get.defaultDialog(
+                                        title: "Bookmark",
+                                        middleText: "Pilih Jenis Bookmark",
+                                        actions: [
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              c.addBookmarkInJuz(
+                                                true,
+                                                "${dataSurahInJuz[controller.indexNameSurah].name?.transliteration?.id}",
+                                                verseJuz,
+                                                index,
+                                              );
+                                            },
+                                            style: OutlinedButton.styleFrom(
+                                              side: BorderSide(
+                                                color:
+                                                    Colors.deepPurple.shade800,
+                                              ),
+                                              foregroundColor:
+                                                  Colors.deepPurple.shade800,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  20,
+                                                ),
+                                              ),
+                                            ),
+                                            child: const Text(
+                                              "Terakhir Dibaca",
+                                            ),
+                                          ),
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              c.addBookmarkInJuz(
+                                                false,
+                                                "${dataSurahInJuz[controller.indexNameSurah].name?.transliteration?.id}",
+                                                verseJuz,
+                                                index,
+                                              );
+                                            },
+                                            style: OutlinedButton.styleFrom(
+                                              side: BorderSide(
+                                                color:
+                                                    Colors.deepPurple.shade800,
+                                              ),
+                                              foregroundColor:
+                                                  Colors.deepPurple.shade800,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  20,
+                                                ),
+                                              ),
+                                            ),
+                                            child: const Text(
+                                              "Bookmark",
+                                            ),
+                                          ),
+                                        ],
+                                      );
                                     },
                                     icon:
                                         const Icon(Icons.bookmark_add_outlined),

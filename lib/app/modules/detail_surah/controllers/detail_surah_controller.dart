@@ -8,11 +8,77 @@ import 'package:quran_app/app/data/models/base_url.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:quran_app/app/data/models/detail_surah.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../../../data/db/bookmark.dart';
 
 class DetailSurahController extends GetxController {
   late final player = AudioPlayer();
 
   Verse? lastVerse;
+
+  DatabaseManager dbManager = DatabaseManager.instance;
+
+  void addBookmark(bool lastRead, DataDetailSurah dataSurah, Verse verse,
+      int indexAyat) async {
+    Database db = await dbManager.db;
+
+    bool flagExist = false;
+
+    if (lastRead == true) {
+      await db.delete("bookmark", where: "last_read = 1");
+    } else {
+      List checkData = await db.query("bookmark",
+          where:
+              "surah = '${dataSurah.name!.transliteration!.id?.replaceAll("'", "+")}' and ayat = ${verse.number!.inSurah} and juz = ${verse.meta!.juz} and via = 'surah' and index_ayat = $indexAyat and last_read = 0");
+      if (checkData.isNotEmpty) {
+        // jika ada data
+        flagExist = true;
+      }
+    }
+
+    if (flagExist == false) {
+      await db.insert(
+        "bookmark",
+        {
+          "surah":
+              "${dataSurah.name!.transliteration!.id?.replaceAll("'", "+")}",
+          "ayat": "${verse.number!.inSurah}",
+          "juz": "${verse.meta!.juz}",
+          "via": "surah",
+          "index_ayat": indexAyat,
+          "last_read": lastRead == true ? 1 : 0,
+        },
+      );
+
+      Get.back();
+      Get.snackbar(
+        "Berhasil",
+        lastRead == true
+            ? "Berhasil menyimpan surat ${dataSurah.name!.transliteration!.id} ayat ${verse.number!.inSurah} ke bacaan terakhir"
+            : "Berhasil menambahkan surat ${dataSurah.name!.transliteration!.id} ayat ${verse.number!.inSurah} ke dalam bookmark",
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(0),
+        borderRadius: 0,
+      );
+    } else {
+      Get.back();
+      Get.snackbar(
+        "Data Sudah Ada",
+        "Surat ${dataSurah.name!.transliteration!.id} ayat ${verse.number!.inSurah} sudah ada di dalam bookmark",
+        backgroundColor: Colors.yellow,
+        colorText: Colors.black,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(0),
+        borderRadius: 0,
+      );
+    }
+
+    var data = await db.query("bookmark");
+    print(data);
+  }
 
   Future<DataDetailSurah> getDetailSurah(String id) async {
     Uri url = Uri.parse('${BaseUrl.quran}/surah/$id');

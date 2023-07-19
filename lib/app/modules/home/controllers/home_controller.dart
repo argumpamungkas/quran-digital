@@ -6,11 +6,29 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:quran_app/app/data/models/base_url.dart';
 import 'package:quran_app/app/data/models/quotes.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../../../data/db/bookmark.dart';
 
 class HomeController extends GetxController {
   RxString nameUser = "".obs;
 
   final box = GetStorage();
+
+  DatabaseManager dbManager = DatabaseManager.instance;
+
+  Future<Map<String, dynamic>> getLastRead() async {
+    Database db = await dbManager.db;
+    List<Map<String, dynamic>> dataLastRead = await db.query(
+      "bookmark",
+      where: "last_read = 1",
+    );
+    if (dataLastRead.isEmpty) {
+      return {};
+    } else {
+      return dataLastRead[0];
+    }
+  }
 
   Future<DataQuote> getQuote() async {
     Uri url = Uri.parse(BaseUrl.quote);
@@ -43,5 +61,6 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     getNameUser();
+    print("Dipanggil lagi");
   }
 }

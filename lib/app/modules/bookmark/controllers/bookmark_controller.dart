@@ -1,23 +1,36 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quran_app/app/data/db/bookmark.dart';
+import 'package:sqflite/sqflite.dart';
 
 class BookmarkController extends GetxController {
-  //TODO: Implement BookmarkController
+  DatabaseManager dbManager = DatabaseManager.instance;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  Future<List<Map<String, dynamic>>> getAllBookmark() async {
+    Database db = await dbManager.db;
+    List<Map<String, dynamic>> allDataBookmark = await db.query(
+      "bookmark",
+      where: "last_read = 0",
+    );
+    if (allDataBookmark.isEmpty) {
+      return [];
+    } else {
+      return allDataBookmark;
+    }
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future deleteBookmark(int id, String nameSurah, int ayat) async {
+    Database db = await dbManager.db;
+    await db.delete("bookmark", where: "id = $id");
+    update();
+    Get.snackbar(
+      "Berhasil",
+      "Surat $nameSurah ayat $ayat berhasil dihapus dari bookmark",
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      margin: const EdgeInsets.all(0),
+      borderRadius: 0,
+    );
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

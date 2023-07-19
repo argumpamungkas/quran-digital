@@ -21,12 +21,12 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
               if (snap.connectionState == ConnectionState.waiting) {
                 return GridView.builder(
                   padding: const EdgeInsets.all(10),
-                  itemCount: 8,
+                  itemCount: 9,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    crossAxisCount: 3,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 4 / 1.5,
+                    childAspectRatio: 4 / 2,
                   ),
                   itemBuilder: (context, index) {
                     return Shimmer.fromColors(
@@ -52,10 +52,10 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
                 padding: const EdgeInsets.all(10),
                 itemCount: snap.data?.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 3,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
-                  childAspectRatio: 4 / 1.5,
+                  childAspectRatio: 4 / 2,
                 ),
                 itemBuilder: (context, index) {
                   DailyPrayer dailyPrayer = snap.data![index];
@@ -89,10 +89,11 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
                     child: Container(
                       height: 10,
                       decoration: BoxDecoration(
+                        color: Colors.deepPurple.shade200,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           width: 2,
-                          color: Color(0xff85586F),
+                          color: Colors.white,
                         ),
                       ),
                       child: Padding(
@@ -102,7 +103,8 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
                             "${dailyPrayer.doa}",
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 12,
+                              color: Colors.white,
                             ),
                           ),
                         ),

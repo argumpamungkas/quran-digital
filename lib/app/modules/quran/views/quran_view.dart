@@ -17,6 +17,11 @@ class QuranView extends GetView<QuranController> {
       child: Scaffold(
         backgroundColor: Colors.deepPurple.shade50,
         appBar: AppBar(
+          title: Text(
+            "Al - Qur'an",
+            style: TextStyle(
+                fontWeight: FontWeight.w600, color: Colors.deepPurple.shade800),
+          ),
           centerTitle: true,
           backgroundColor: Colors.deepPurple.shade50,
           foregroundColor: Colors.black,
@@ -109,13 +114,24 @@ class QuranView extends GetView<QuranController> {
                           ],
                         ),
                       ),
-                      title: Text("${dataSurah.name!.transliteration?.id}"),
+                      title: Text(
+                        "${dataSurah.name!.transliteration?.id}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                       subtitle: Text(
                         "${dataSurah.numberOfVerses} Ayat | ${dataSurah.revelation?.id}",
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
                       ),
                       trailing: Text(
                         "${dataSurah.name!.short}",
-                        style: const TextStyle(fontSize: 22),
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurple.shade800),
                       ),
                     );
                   },
@@ -202,12 +218,21 @@ class QuranView extends GetView<QuranController> {
                       child: ListTile(
                         onTap: () async {
                           Get.dialog(
-                            const Dialog(
+                            Dialog(
                               child: SizedBox(
                                 height: 100,
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
-                                  child: CircularProgressIndicator(),
+                                  child: Column(
+                                    children: [
+                                      const CircularProgressIndicator(),
+                                      const SizedBox(height: 10),
+                                      Center(
+                                        child:
+                                            Text("Loading Juz ${index + 1}..."),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -220,7 +245,8 @@ class QuranView extends GetView<QuranController> {
                                 Routes.DETAIL_JUZ,
                                 arguments: {
                                   "dataJuz": dataJuz,
-                                  "dataSurah": allDataSurahWithJuz.reversed,
+                                  "dataSurah":
+                                      allDataSurahWithJuz.reversed.toList(),
                                 },
                               );
                             },
@@ -237,19 +263,34 @@ class QuranView extends GetView<QuranController> {
                                     "assets/images/octagon-list.png"),
                                 color: Colors.deepPurple,
                               ),
-                              Center(child: Text("${index + 1}")),
+                              Center(
+                                child: Text("${index + 1}"),
+                              ),
                             ],
                           ),
                         ),
                         title: Text(
                           "Juz ${dataJuz.juz}",
-                          style: const TextStyle(fontSize: 18),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("dari: ${dataJuz.juzStartInfo}"),
-                            Text("sampai: ${dataJuz.juzEndInfo}"),
+                            Text(
+                              "dari: ${dataJuz.juzStartInfo}",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "sampai: ${dataJuz.juzEndInfo}",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
                           ],
                         ),
                       ),

@@ -193,7 +193,75 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                           children: [
                                             IconButton(
                                               onPressed: () {
-                                                print("bookmark");
+                                                Get.defaultDialog(
+                                                  title: "Bookmark",
+                                                  middleText:
+                                                      "Pilih Jenis Bookmark",
+                                                  actions: [
+                                                    OutlinedButton(
+                                                      onPressed: () {
+                                                        controller.addBookmark(
+                                                            true,
+                                                            snap.data!,
+                                                            verse,
+                                                            index);
+                                                      },
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        side: BorderSide(
+                                                          color: Colors
+                                                              .deepPurple
+                                                              .shade800,
+                                                        ),
+                                                        foregroundColor: Colors
+                                                            .deepPurple
+                                                            .shade800,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            20,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        "Terakhir Dibaca",
+                                                      ),
+                                                    ),
+                                                    OutlinedButton(
+                                                      onPressed: () {
+                                                        controller.addBookmark(
+                                                            false,
+                                                            snap.data!,
+                                                            verse,
+                                                            index);
+                                                      },
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        side: BorderSide(
+                                                          color: Colors
+                                                              .deepPurple
+                                                              .shade800,
+                                                        ),
+                                                        foregroundColor: Colors
+                                                            .deepPurple
+                                                            .shade800,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            20,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        "Bookmark",
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
                                               },
                                               icon: const Icon(
                                                   Icons.bookmark_add_outlined),

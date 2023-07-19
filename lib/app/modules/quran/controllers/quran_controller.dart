@@ -40,9 +40,10 @@ class QuranController extends GetxController {
       var resp = await http.get(url);
 
       while (resp.statusCode == 429) {
-        await Future.delayed(const Duration(milliseconds: 500));
-        resp = await http.get(url);
-        print("ini I ke - $i ");
+        await Future.delayed(const Duration(seconds: 10), () async {
+          resp = await http.get(url);
+          print("ini I ke - $i ");
+        });
       }
 
       try {
