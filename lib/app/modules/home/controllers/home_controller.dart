@@ -17,17 +17,23 @@ class HomeController extends GetxController {
 
   DatabaseManager dbManager = DatabaseManager.instance;
 
-  Future<Map<String, dynamic>> getLastRead() async {
+  Future<Map<String, dynamic>?> getLastRead() async {
     Database db = await dbManager.db;
     List<Map<String, dynamic>> dataLastRead = await db.query(
       "bookmark",
       where: "last_read = 1",
     );
     if (dataLastRead.isEmpty) {
-      return {};
+      return null;
     } else {
-      return dataLastRead[0];
+      return dataLastRead.first;
     }
+  }
+
+  Future deleteLastRead(int id) async {
+    Database db = await dbManager.db;
+    await db.delete("bookmark", where: "id = $id");
+    update();
   }
 
   Future<DataQuote> getQuote() async {
@@ -61,6 +67,5 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     getNameUser();
-    print("Dipanggil lagi");
   }
 }

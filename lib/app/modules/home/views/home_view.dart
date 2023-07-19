@@ -60,104 +60,195 @@ class HomeView extends GetView<HomeController> {
                   ]),
             ),
             const SizedBox(height: 20),
-            FutureBuilder<Map<String, dynamic>>(
-                future: controller.getLastRead(),
-                builder: (context, snap) {
-                  if (snap.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      width: Get.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: puprleSolid,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: puprleSolid,
-                              offset: Offset(0, 5),
-                              blurRadius: 10,
-                            )
-                          ]),
-                    );
-                  }
-
-                  if (!snap.hasData || snap.data?['surah'] == null) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        color: puprleSolid,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
+            GetBuilder<HomeController>(
+              builder: (c) {
+                return FutureBuilder<Map<String, dynamic>?>(
+                  future: c.getLastRead(),
+                  builder: (context, snap) {
+                    if (snap.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 18),
+                        width: Get.width,
+                        decoration: BoxDecoration(
                             color: puprleSolid,
-                            offset: Offset(0, 5),
-                            blurRadius: 10,
-                          )
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: puprleSolid,
+                                offset: Offset(0, 5),
+                                blurRadius: 10,
+                              )
+                            ]),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Terakhir\ndibaca",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              "Loading",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Icon(
+                              Icons.adjust,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    if (!snap.hasData || snap.data == null) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 18),
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                            color: puprleSolid,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: puprleSolid,
+                                offset: Offset(0, 5),
+                                blurRadius: 10,
+                              )
+                            ]),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Terakhir\ndibaca",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              "Belum ada data",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Icon(
+                              Icons.adjust,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    Map<String, dynamic> dataLastRead = snap.data!;
+                    return GestureDetector(
+                      onTap: () => Get.toNamed(Routes.LAST_READ),
+                      onLongPress: () => Get.defaultDialog(
+                        title: "Hapus",
+                        content: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: const Text(
+                              "Apakah anda yakin akan menghapus bacaan terakhir ini?"),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              c.deleteLastRead(dataLastRead['id']);
+                              Get.back(closeOverlays: false);
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.red.shade700,
+                              foregroundColor: Colors.white,
+                            ),
+                            child: const Text("Hapus"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.deepPurple,
+                            ),
+                            child: const Text("Tidak"),
+                          ),
                         ],
                       ),
-                      child: const Center(
-                        child: Text(
-                          "Belum ada bacaan terakhir",
-                          style: TextStyle(color: Colors.white),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                            color: puprleSolid,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: puprleSolid,
+                                offset: Offset(0, 5),
+                                blurRadius: 10,
+                              )
+                            ]),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Terakhir\ndibaca",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  dataLastRead['surah']
+                                      .toString()
+                                      .replaceAll("+", "'"),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  "Juz ${dataLastRead['juz']} | Ayat ${dataLastRead['ayat']}",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Icon(
+                              Icons.arrow_circle_right,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
                       ),
                     );
-                  }
-
-                  Map<String, dynamic> dataLastRead = snap.data!;
-                  return GestureDetector(
-                    onTap: () => Get.toNamed(Routes.LAST_READ),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                          color: puprleSolid,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: puprleSolid,
-                              offset: Offset(0, 5),
-                              blurRadius: 10,
-                            )
-                          ]),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Terakhir\ndibaca",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            "Surat ${dataLastRead['surah']} ayat ${dataLastRead['ayat']}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const Icon(
-                            Icons.arrow_circle_right,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+                  },
+                );
+              },
+            ),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

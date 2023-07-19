@@ -97,7 +97,10 @@ class QuranView extends GetView<QuranController> {
                     return ListTile(
                       onTap: () => Get.toNamed(
                         Routes.DETAIL_SURAH,
-                        arguments: dataSurah,
+                        arguments: {
+                          "name": dataSurah.name!.transliteration!.id,
+                          "number": dataSurah.number,
+                        },
                       ),
                       leading: Container(
                         height: 50,

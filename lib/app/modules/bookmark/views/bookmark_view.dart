@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/bookmark_controller.dart';
 
 class BookmarkView extends GetView<BookmarkController> {
@@ -36,7 +37,16 @@ class BookmarkView extends GetView<BookmarkController> {
                 itemBuilder: (context, index) {
                   Map<String, dynamic> dataBookmark = snap.data![index];
                   return ListTile(
-                    onTap: () => print(dataBookmark),
+                    onTap: () => Get.toNamed(
+                      Routes.DETAIL_SURAH,
+                      arguments: {
+                        "name": dataBookmark['surah']
+                            .toString()
+                            .replaceAll("+", "'"),
+                        "number": dataBookmark['number_surah'],
+                        "bookmark": dataBookmark,
+                      },
+                    ),
                     leading: Container(
                       height: 50,
                       width: 50,
@@ -64,39 +74,40 @@ class BookmarkView extends GetView<BookmarkController> {
                     trailing: IconButton(
                       onPressed: () {
                         Get.defaultDialog(
-                            title: "Hapus",
-                            content: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(
-                                  "Apakah anda yakin akan menghapus ${dataBookmark['surah'].toString().replaceAll("+", "'")} Ayat ${dataBookmark['ayat']} dari bookmark?"),
+                          title: "Hapus",
+                          content: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                                "Apakah anda yakin akan menghapus ${dataBookmark['surah'].toString().replaceAll("+", "'")} Ayat ${dataBookmark['ayat']} dari bookmark?"),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                c.deleteBookmark(
+                                    dataBookmark['id'],
+                                    dataBookmark['surah']
+                                        .toString()
+                                        .replaceAll("+", "'"),
+                                    dataBookmark['ayat']);
+                                Get.back(closeOverlays: false);
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red.shade700,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Text("Hapus"),
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  c.deleteBookmark(
-                                      dataBookmark['id'],
-                                      dataBookmark['surah']
-                                          .toString()
-                                          .replaceAll("+", "'"),
-                                      dataBookmark['ayat']);
-                                  Get.back(closeOverlays: false);
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.deepPurple,
-                                ),
-                                child: const Text("Ya"),
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.deepPurple,
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.deepPurple,
-                                ),
-                                child: const Text("Tidak"),
-                              ),
-                            ]);
+                              child: const Text("Tidak"),
+                            ),
+                          ],
+                        );
                       },
                       icon: const Icon(Icons.delete),
                     ),

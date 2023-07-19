@@ -33,6 +33,7 @@ class DatabaseManager {
             CREATE TABLE bookmark (
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             surah TEXT NOT NULL,
+            number_surah INTEGER NOT NULL,
             ayat INTEGER NOT NULL,
             juz INTEGER NOT NULL,
             via TEXT NOT NULL,

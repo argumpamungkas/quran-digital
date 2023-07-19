@@ -11,6 +11,7 @@ class BookmarkController extends GetxController {
     List<Map<String, dynamic>> allDataBookmark = await db.query(
       "bookmark",
       where: "last_read = 0",
+      orderBy: "number_surah, ayat",
     );
     if (allDataBookmark.isEmpty) {
       return [];

@@ -9,18 +9,20 @@ import 'package:quran_app/app/data/models/base_url.dart';
 import 'package:http/http.dart' as http;
 import 'package:quran_app/app/data/models/detail_surah.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../../data/db/bookmark.dart';
 
 class DetailSurahController extends GetxController {
+  AutoScrollController scrollC = AutoScrollController();
   late final player = AudioPlayer();
 
   Verse? lastVerse;
 
   DatabaseManager dbManager = DatabaseManager.instance;
 
-  void addBookmark(bool lastRead, DataDetailSurah dataSurah, Verse verse,
-      int indexAyat) async {
+  Future<void> addBookmark(bool lastRead, DataDetailSurah dataSurah,
+      Verse verse, int indexAyat) async {
     Database db = await dbManager.db;
 
     bool flagExist = false;
@@ -30,7 +32,7 @@ class DetailSurahController extends GetxController {
     } else {
       List checkData = await db.query("bookmark",
           where:
-              "surah = '${dataSurah.name!.transliteration!.id?.replaceAll("'", "+")}' and ayat = ${verse.number!.inSurah} and juz = ${verse.meta!.juz} and via = 'surah' and index_ayat = $indexAyat and last_read = 0");
+              "surah = '${dataSurah.name!.transliteration!.id?.replaceAll("'", "+")}' and number_surah = ${dataSurah.number} and ayat = ${verse.number!.inSurah} and juz = ${verse.meta!.juz} and via = 'surah' and index_ayat = $indexAyat and last_read = 0");
       if (checkData.isNotEmpty) {
         // jika ada data
         flagExist = true;
@@ -43,8 +45,9 @@ class DetailSurahController extends GetxController {
         {
           "surah":
               "${dataSurah.name!.transliteration!.id?.replaceAll("'", "+")}",
-          "ayat": "${verse.number!.inSurah}",
-          "juz": "${verse.meta!.juz}",
+          "number_surah": dataSurah.number,
+          "ayat": verse.number!.inSurah,
+          "juz": verse.meta!.juz,
           "via": "surah",
           "index_ayat": indexAyat,
           "last_read": lastRead == true ? 1 : 0,

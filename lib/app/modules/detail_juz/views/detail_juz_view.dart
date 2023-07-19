@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:quran_app/app/data/models/juz.dart' as juz;
+import 'package:quran_app/app/modules/home/controllers/home_controller.dart';
 
 import '../../../constant/color.dart';
 import '../../../data/models/surah.dart';
@@ -13,6 +14,8 @@ class DetailJuzView extends GetView<DetailJuzController> {
 
   juz.DataJuz dataJuz = Get.arguments["dataJuz"];
   List<DataSurah> dataSurahInJuz = Get.arguments["dataSurah"];
+
+  final homeC = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -186,13 +189,14 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                         middleText: "Pilih Jenis Bookmark",
                                         actions: [
                                           OutlinedButton(
-                                            onPressed: () {
-                                              c.addBookmarkInJuz(
+                                            onPressed: () async {
+                                              await c.addBookmarkInJuz(
                                                 true,
                                                 "${dataSurahInJuz[controller.indexNameSurah].name?.transliteration?.id}",
                                                 verseJuz,
                                                 index,
                                               );
+                                              homeC.update();
                                             },
                                             style: OutlinedButton.styleFrom(
                                               side: BorderSide(
@@ -213,8 +217,8 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                             ),
                                           ),
                                           OutlinedButton(
-                                            onPressed: () {
-                                              c.addBookmarkInJuz(
+                                            onPressed: () async {
+                                              await c.addBookmarkInJuz(
                                                 false,
                                                 "${dataSurahInJuz[controller.indexNameSurah].name?.transliteration?.id}",
                                                 verseJuz,

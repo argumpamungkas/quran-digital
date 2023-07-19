@@ -15,7 +15,7 @@ class DetailJuzController extends GetxController {
 
   DatabaseManager dbManager = DatabaseManager.instance;
 
-  addBookmarkInJuz(
+  Future<void> addBookmarkInJuz(
       bool lastRead, String nameSurah, VerseJuz verse, int indexAyat) async {
     Database db = await dbManager.db;
 
