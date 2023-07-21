@@ -36,7 +36,6 @@ class DatabaseManager {
             number_surah INTEGER NOT NULL,
             ayat INTEGER NOT NULL,
             juz INTEGER NOT NULL,
-            via TEXT NOT NULL,
             index_ayat INTEGER NOT NULL,
             last_read INTEGER DEFAULT 0
           )''');

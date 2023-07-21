@@ -6,16 +6,12 @@ import '../modules/bookmark/bindings/bookmark_binding.dart';
 import '../modules/bookmark/views/bookmark_view.dart';
 import '../modules/daily_prayer/bindings/daily_prayer_binding.dart';
 import '../modules/daily_prayer/views/daily_prayer_view.dart';
-import '../modules/detail_juz/bindings/detail_juz_binding.dart';
-import '../modules/detail_juz/views/detail_juz_view.dart';
 import '../modules/detail_surah/bindings/detail_surah_binding.dart';
 import '../modules/detail_surah/views/detail_surah_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/introduction/bindings/introduction_binding.dart';
 import '../modules/introduction/views/introduction_view.dart';
-import '../modules/last_read/bindings/last_read_binding.dart';
-import '../modules/last_read/views/last_read_view.dart';
 import '../modules/quran/bindings/quran_binding.dart';
 import '../modules/quran/views/quran_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
@@ -71,20 +67,8 @@ class AppPages {
       transition: Transition.rightToLeft,
     ),
     GetPage(
-      name: _Paths.LAST_READ,
-      page: () => const LastReadView(),
-      binding: LastReadBinding(),
-      transition: Transition.rightToLeft,
-    ),
-    GetPage(
-      name: _Paths.DETAIL_JUZ,
-      page: () => DetailJuzView(),
-      binding: DetailJuzBinding(),
-      transition: Transition.rightToLeft,
-    ),
-    GetPage(
       name: _Paths.BOOKMARK,
-      page: () => const BookmarkView(),
+      page: () => BookmarkView(),
       binding: BookmarkBinding(),
       transition: Transition.downToUp,
     ),

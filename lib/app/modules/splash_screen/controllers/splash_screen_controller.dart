@@ -6,7 +6,7 @@ class SplashScreenController extends GetxController {
   final box = GetStorage();
 
   void validateUser() {
-    if (box.read('userValid') == null) {
+    if (box.read('nameUser') == null) {
       Future.delayed(
         const Duration(seconds: 3),
         () => Get.offAllNamed(Routes.INTRODUCTION),

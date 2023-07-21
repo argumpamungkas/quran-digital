@@ -12,7 +12,13 @@ class AsmaulHusnaView extends GetView<AsmaulHusnaController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Asmaul Husna'),
+          title: Text(
+            'Asmaul Husna',
+            style: TextStyle(
+              color: Colors.deepPurple.shade800,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           centerTitle: true,
         ),
         body: FutureBuilder(
@@ -57,29 +63,6 @@ class AsmaulHusnaView extends GetView<AsmaulHusnaController> {
                 itemBuilder: (context, index) {
                   DataAsmaulHusna dataAsmaulHusna = snap.data![index];
                   return GestureDetector(
-                    onTap: () {
-                      Get.defaultDialog(
-                          title: "${dataAsmaulHusna.latin}",
-                          middleText: "",
-                          content: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${dataAsmaulHusna.arabic}",
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "${dataAsmaulHusna.idTranslation}",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ));
-                    },
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),

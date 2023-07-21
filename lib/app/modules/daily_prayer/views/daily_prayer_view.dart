@@ -12,7 +12,13 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Doa Sehari - Hari'),
+          title: Text(
+            'Doa Sehari - Hari',
+            style: TextStyle(
+              color: Colors.deepPurple.shade800,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           centerTitle: true,
         ),
         body: FutureBuilder(
@@ -30,8 +36,8 @@ class DailyPrayerView extends GetView<DailyPrayerController> {
                   ),
                   itemBuilder: (context, index) {
                     return Shimmer.fromColors(
-                      baseColor: Color(0xffB08BBB),
-                      highlightColor: Color(0xffE3ACF9),
+                      baseColor: const Color(0xffB08BBB),
+                      highlightColor: const Color(0xffE3ACF9),
                       child: Container(
                         height: 10,
                         decoration: BoxDecoration(

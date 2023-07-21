@@ -32,7 +32,7 @@ class DetailSurahController extends GetxController {
     } else {
       List checkData = await db.query("bookmark",
           where:
-              "surah = '${dataSurah.name!.transliteration!.id?.replaceAll("'", "+")}' and number_surah = ${dataSurah.number} and ayat = ${verse.number!.inSurah} and juz = ${verse.meta!.juz} and via = 'surah' and index_ayat = $indexAyat and last_read = 0");
+              "surah = '${dataSurah.name!.transliteration!.id?.replaceAll("'", "+")}' and number_surah = ${dataSurah.number} and ayat = ${verse.number!.inSurah} and juz = ${verse.meta!.juz} and index_ayat = $indexAyat and last_read = 0");
       if (checkData.isNotEmpty) {
         // jika ada data
         flagExist = true;
@@ -48,7 +48,6 @@ class DetailSurahController extends GetxController {
           "number_surah": dataSurah.number,
           "ayat": verse.number!.inSurah,
           "juz": verse.meta!.juz,
-          "via": "surah",
           "index_ayat": indexAyat,
           "last_read": lastRead == true ? 1 : 0,
         },
@@ -65,6 +64,7 @@ class DetailSurahController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(0),
         borderRadius: 0,
+        duration: const Duration(seconds: 2),
       );
     } else {
       Get.back();
@@ -76,11 +76,9 @@ class DetailSurahController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(0),
         borderRadius: 0,
+        duration: const Duration(seconds: 1),
       );
     }
-
-    var data = await db.query("bookmark");
-    print(data);
   }
 
   Future<DataDetailSurah> getDetailSurah(String id) async {
@@ -127,6 +125,7 @@ class DetailSurahController extends GetxController {
           backgroundColor: Colors.amber,
           colorText: Colors.black,
           margin: const EdgeInsets.all(0),
+          duration: const Duration(seconds: 1),
         );
       } on PlayerInterruptedException catch (e) {
         Get.snackbar(
@@ -136,6 +135,7 @@ class DetailSurahController extends GetxController {
           backgroundColor: Colors.amber,
           colorText: Colors.black,
           margin: const EdgeInsets.all(0),
+          duration: const Duration(seconds: 1),
         );
       } catch (e) {
         Get.snackbar(
@@ -155,6 +155,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     }
   }
@@ -172,6 +173,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     } on PlayerInterruptedException catch (e) {
       Get.snackbar(
@@ -181,6 +183,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     } catch (e) {
       Get.snackbar(
@@ -190,6 +193,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     }
   }
@@ -209,6 +213,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     } on PlayerInterruptedException catch (e) {
       Get.snackbar(
@@ -218,6 +223,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     } catch (e) {
       Get.snackbar(
@@ -227,6 +233,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     }
   }
@@ -244,6 +251,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     } on PlayerInterruptedException catch (e) {
       Get.snackbar(
@@ -253,6 +261,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     } catch (e) {
       Get.snackbar(
@@ -262,6 +271,7 @@ class DetailSurahController extends GetxController {
         backgroundColor: Colors.amber,
         colorText: Colors.black,
         margin: const EdgeInsets.all(0),
+        duration: const Duration(seconds: 1),
       );
     }
   }

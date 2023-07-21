@@ -5,6 +5,7 @@ import 'package:quran_app/app/constant/color.dart';
 import 'package:quran_app/app/modules/home/controllers/home_controller.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/detail_surah_controller.dart';
 import '../../../data/models/detail_surah.dart';
 
@@ -27,6 +28,15 @@ class DetailSurahView extends GetView<DetailSurahController> {
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.deepPurple.shade800,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.toNamed(Routes.BOOKMARK);
+            },
+            icon: const Icon(Icons.book),
+            color: Colors.deepPurple.shade800,
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: controller.getDetailSurah(Get.arguments["number"].toString()),
@@ -53,7 +63,6 @@ class DetailSurahView extends GetView<DetailSurahController> {
               );
             }
           }
-          print(dataBookmark);
 
           DataDetailSurah dataSurah = snap.data!;
 

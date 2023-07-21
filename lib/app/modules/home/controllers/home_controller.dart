@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:convert';
@@ -7,15 +7,28 @@ import 'package:http/http.dart' as http;
 import 'package:quran_app/app/data/models/base_url.dart';
 import 'package:quran_app/app/data/models/quotes.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/db/bookmark.dart';
 
-class HomeController extends GetxController {
+// ignore: deprecated_member_use
+class HomeController extends GetxController with SingleGetTickerProviderMixin {
   RxString nameUser = "".obs;
+
+  late TextEditingController nameC;
 
   final box = GetStorage();
 
   DatabaseManager dbManager = DatabaseManager.instance;
+
+  final FlutterTts flutterTts = FlutterTts();
+
+  bool hasPermission = false;
+
+  Animation<double>? animation;
+  AnimationController? animationController;
+  double begin = 0.0;
 
   Future<Map<String, dynamic>?> getLastRead() async {
     Database db = await dbManager.db;
@@ -58,8 +71,30 @@ class HomeController extends GetxController {
   }
 
   void getNameUser() {
-    if (box.read("userValid") != null) {
-      nameUser.value = box.read("userValid");
+    if (box.read("nameUser") != null) {
+      nameUser.value = box.read("nameUser");
+      Future.delayed(const Duration(seconds: 1), () async {
+        await flutterTts.setLanguage("en-US");
+        await flutterTts.stop();
+        await flutterTts.setSpeechRate(0.4);
+        await flutterTts.speak("Assalamualaikum ${nameUser.value}");
+      });
+    }
+  }
+
+  Future<void> changeName() async {
+    if (box.read("nameUser") != null) {
+      await box.remove("nameUser");
+    }
+  }
+
+  Future<void> getPermission() async {
+    if (!hasPermission) {
+      var status = await Permission.location.request();
+      if (status.isGranted) {
+        hasPermission = true;
+        update();
+      }
     }
   }
 
@@ -67,5 +102,14 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     getNameUser();
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    animation = Tween(begin: 0.0, end: 0.0).animate(animationController!);
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    animationController?.dispose();
   }
 }

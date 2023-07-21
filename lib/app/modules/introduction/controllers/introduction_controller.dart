@@ -11,8 +11,29 @@ class IntroductionController extends GetxController {
 
   void saveNameUser() {
     if (nameUserC.text.isNotEmpty) {
-      box.write("userValid", nameUserC.text);
-      Get.offAllNamed(Routes.HOME);
+      box.write("nameUser", nameUserC.text);
+      Get.dialog(
+          barrierDismissible: false,
+          Dialog(
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(
+                    color: Colors.deepPurple.shade800,
+                  ),
+                ],
+              ),
+            ),
+          ));
+      Future.delayed(const Duration(seconds: 3), () {
+        Get.offAllNamed(Routes.HOME);
+      });
     } else {
       Get.snackbar(
         "Gagal Masuk",
@@ -20,8 +41,8 @@ class IntroductionController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(0),
         borderRadius: 0,
-        backgroundColor: Colors.yellow[600],
-        colorText: Colors.black,
+        backgroundColor: Colors.red.shade700,
+        colorText: Colors.white,
       );
     }
   }

@@ -18,6 +18,9 @@ dependencies:
   sqflite: 2.2.8+4
   path_provider: 2.0.15
   scroll_to_index: 3.0.1
+  flutter_tts: 3.7.0
+  flutter_qiblah: 2.2.0
+  permission_handler: 10.4.3
   flutter: 
     sdk: flutter
 
