@@ -22,266 +22,277 @@ class HomeView extends GetView<HomeController> {
         padding: EdgeInsets.only(
           top: heightStatusBar - 10,
         ),
-        child: GetBuilder<HomeController>(builder: (c) {
-          return ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Assalamu'alakum",
+                            style: TextStyle(color: Colors.grey[600]),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: FittedBox(
+                            child: Text(
+                              controller.nameUser.value.toUpperCase(),
+                              style: const TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.deepPurple.shade800,
+                        side: BorderSide(
+                            width: 1, color: Colors.deepPurple.shade800),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 7, vertical: 2),
+                      ),
+                      onPressed: () {
+                        Get.defaultDialog(
+                          title: "Ganti Nama",
+                          titlePadding:
+                              const EdgeInsets.only(top: 10, bottom: 5),
+                          middleText:
+                              " Apakah anda yakin akan mengganti nama? ",
+                          middleTextStyle: const TextStyle(fontSize: 14),
+                          actions: [
+                            TextButton(
+                              onPressed: () async {
+                                await controller.changeName();
+                                Get.back();
+                                Get.dialog(
+                                    barrierDismissible: false,
+                                    Dialog(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CircularProgressIndicator(
+                                              color: Colors.deepPurple.shade800,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+                                Future.delayed(const Duration(seconds: 3), () {
+                                  Get.offAllNamed(Routes.INTRODUCTION);
+                                });
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.deepPurple,
+                              ),
+                              child: const Text("Ya"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.deepPurple,
+                              ),
+                              child: const Text("Tidak"),
+                            ),
+                          ],
+                        );
+                      },
+                      child: const Text(
+                        "Ganti Nama",
+                        style: TextStyle(fontSize: 10),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 15),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              width: Get.width,
+              height: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  colors: [
+                    puprleLight,
+                    puprleSolid,
+                  ],
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: puprleLight,
+                    offset: Offset(0, 10),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                  )
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
                       flex: 2,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Assalamu'alakum",
-                              style: TextStyle(color: Colors.grey[600]),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: FittedBox(
-                              child: Text(
-                                controller.nameUser.value.toUpperCase(),
-                                style: const TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
-                              ),
+                          const Text("Jadwal Solat Selanjutnya"),
+                          TimeShalat(jamSolat: "11:45", waktuSolat: "Dhuhur"),
+                          FittedBox(
+                            child: Row(
+                              children: [
+                                TimeShalat(
+                                    jamSolat: "04:30", waktuSolat: "Shubuh"),
+                                const SizedBox(width: 20),
+                                TimeShalat(
+                                    jamSolat: "11:45", waktuSolat: "Dhuhur"),
+                                const SizedBox(width: 20),
+                                TimeShalat(
+                                    jamSolat: "15:15", waktuSolat: "Ashar"),
+                                const SizedBox(width: 20),
+                                TimeShalat(
+                                    jamSolat: "17:50", waktuSolat: "Maghrib"),
+                                const SizedBox(width: 20),
+                                TimeShalat(
+                                    jamSolat: "19:07", waktuSolat: "Isha"),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.deepPurple.shade800,
-                          side: BorderSide(
-                              width: 1, color: Colors.deepPurple.shade800),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 7, vertical: 2),
-                        ),
-                        onPressed: () {
-                          Get.defaultDialog(
-                            title: "Ganti Nama",
-                            titlePadding:
-                                const EdgeInsets.only(top: 10, bottom: 5),
-                            middleText:
-                                " Apakah anda yakin akan mengganti nama? ",
-                            middleTextStyle: const TextStyle(fontSize: 14),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  await controller.changeName();
-                                  Get.back();
-                                  Get.dialog(
-                                      barrierDismissible: false,
-                                      Dialog(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                    // COMPASS KIBLAT
+                    GetBuilder<HomeController>(
+                        id: "qiblah",
+                        builder: (c) {
+                          return Flexible(
+                            flex: 1,
+                            child: FutureBuilder(
+                              future: c.getPermission(),
+                              builder: (context, snap) {
+                                if (snap.connectionState ==
+                                    ConnectionState.waiting) {
+                                  print("Waiting");
+                                  return Container(
+                                    margin: const EdgeInsets.only(right: 20),
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Colors.deepPurple,
+                                      color: Colors.deepPurple.shade800,
+                                    ),
+                                  );
+                                } else if (c.hasPermission) {
+                                  Future.delayed(Duration(seconds: 5));
+                                  // STREAM BUILDER AFTER GET PERMISSION
+                                  print("GET STREAM");
+                                  return StreamBuilder(
+                                    stream: FlutterQiblah.qiblahStream,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 20),
+                                          child: CircularProgressIndicator(
+                                            backgroundColor: Colors.deepPurple,
+                                            color: Colors.deepPurple.shade800,
                                           ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              CircularProgressIndicator(
-                                                color:
-                                                    Colors.deepPurple.shade800,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ));
-                                  Future.delayed(const Duration(seconds: 3),
-                                      () {
-                                    Get.offAllNamed(Routes.INTRODUCTION);
-                                  });
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.deepPurple,
-                                ),
-                                child: const Text("Ya"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.deepPurple,
-                                ),
-                                child: const Text("Tidak"),
-                              ),
-                            ],
-                          );
-                        },
-                        child: const Text(
-                          "Ganti Nama",
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 15),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                width: Get.width,
-                height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: const LinearGradient(
-                    colors: [
-                      puprleLight,
-                      puprleSolid,
-                    ],
-                  ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: puprleLight,
-                      offset: Offset(0, 10),
-                      blurRadius: 15,
-                      spreadRadius: 1,
-                    )
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Jadwal Solat Selanjutnya"),
-                            TimeShalat(jamSolat: "11:45", waktuSolat: "Dhuhur"),
-                            FittedBox(
-                              child: Row(
-                                children: [
-                                  TimeShalat(
-                                      jamSolat: "04:30", waktuSolat: "Shubuh"),
-                                  const SizedBox(width: 20),
-                                  TimeShalat(
-                                      jamSolat: "11:45", waktuSolat: "Dhuhur"),
-                                  const SizedBox(width: 20),
-                                  TimeShalat(
-                                      jamSolat: "15:15", waktuSolat: "Ashar"),
-                                  const SizedBox(width: 20),
-                                  TimeShalat(
-                                      jamSolat: "17:50", waktuSolat: "Maghrib"),
-                                  const SizedBox(width: 20),
-                                  TimeShalat(
-                                      jamSolat: "19:07", waktuSolat: "Isha"),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // COMPASS KIBLAT
-                      Flexible(
-                        flex: 1,
-                        child: FutureBuilder(
-                          future: c.getPermission(),
-                          builder: (context, snap) {
-                            if (snap.connectionState ==
-                                ConnectionState.waiting) {
-                              return Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Colors.deepPurple,
-                                  color: Colors.deepPurple.shade800,
-                                ),
-                              );
-                            } else if (c.hasPermission) {
-                              // STREAM BUILDER AFTER GET PERMISSION
-                              return StreamBuilder(
-                                stream: FlutterQiblah.qiblahStream,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Container(
-                                      margin: const EdgeInsets.only(right: 20),
-                                      child: CircularProgressIndicator(
-                                        backgroundColor: Colors.deepPurple,
-                                        color: Colors.deepPurple.shade800,
-                                      ),
-                                    );
-                                  }
+                                        );
+                                      }
 
-                                  final qiblahDirection = snapshot.data;
-                                  c.animation = Tween(
-                                    begin: c.begin,
-                                    end: (qiblahDirection!.qiblah *
-                                        (pi / 180) *
-                                        -1),
-                                  ).animate(c.animationController!);
-                                  c.begin = (qiblahDirection.qiblah *
-                                      (pi / 180) *
-                                      -1);
-                                  c.animationController!.forward(from: 0);
+                                      final qiblahDirection = snapshot.data;
 
-                                  return AnimatedBuilder(
-                                    animation: c.animation!,
-                                    builder: (context, child) {
-                                      return Transform.rotate(
-                                        angle: c.animation!.value,
-                                        child: Image.asset(
-                                          "assets/images/compass-qiblah.png",
-                                        ),
+                                      c.animation = Tween(
+                                        begin: c.begin,
+                                        end: (qiblahDirection!.qiblah *
+                                            (pi / 180) *
+                                            -1),
+                                      ).animate(c.animationController!);
+                                      c.begin = (qiblahDirection.qiblah *
+                                          (pi / 180) *
+                                          -1);
+                                      c.animationController!.forward(from: 0);
+
+                                      return AnimatedBuilder(
+                                        animation: c.animation!,
+                                        builder: (context, child) {
+                                          return Transform.rotate(
+                                            angle: c.animation!.value,
+                                            child: Image.asset(
+                                              "assets/images/compass-qiblah.png",
+                                            ),
+                                          );
+                                        },
                                       );
                                     },
                                   );
-                                },
-                              );
-                            } else {
-                              return Container(
-                                margin: const EdgeInsets.only(right: 20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      "Kiblat\ntidak terdeteksi",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 10, color: Colors.white),
+                                } else {
+                                  return Container(
+                                    margin: const EdgeInsets.only(right: 20),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          "Kiblat\ntidak terdeteksi",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              color: Colors.white),
+                                        ),
+                                        OutlinedButton(
+                                            onPressed: () async {
+                                              await c.getPermission();
+                                            },
+                                            style: OutlinedButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                foregroundColor: Colors.white,
+                                                side: const BorderSide(
+                                                    width: 2,
+                                                    color: Colors.white)),
+                                            child: const Text(
+                                              "Sinkronisasi",
+                                              style: TextStyle(fontSize: 8),
+                                            )),
+                                      ],
                                     ),
-                                    OutlinedButton(
-                                        onPressed: () async {
-                                          await c.getPermission();
-                                        },
-                                        style: OutlinedButton.styleFrom(
-                                            padding: const EdgeInsets.all(0),
-                                            foregroundColor: Colors.white,
-                                            side: const BorderSide(
-                                                width: 2, color: Colors.white)),
-                                        child: const Text(
-                                          "Sinkronisasi",
-                                          style: TextStyle(fontSize: 8),
-                                        )),
-                                  ],
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                                  );
+                                }
+                              },
+                            ),
+                          );
+                        }),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              FutureBuilder<Map<String, dynamic>?>(
+            ),
+            const SizedBox(height: 20),
+            GetBuilder<HomeController>(builder: (c) {
+              return FutureBuilder<Map<String, dynamic>?>(
                 future: c.getLastRead(),
                 builder: (context, snap) {
                   if (snap.connectionState == ConnectionState.waiting) {
@@ -470,306 +481,285 @@ class HomeView extends GetView<HomeController> {
                     ),
                   );
                 },
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Flexible(
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.toNamed(Routes.QURAN),
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 20),
-                            height: 120,
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                              color: Colors.green[300],
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: [
-                                  quranLight,
-                                  quranSolid,
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
+              );
+            }),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Flexible(
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.toNamed(Routes.QURAN),
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 20),
+                          height: 120,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            color: Colors.green[300],
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: const LinearGradient(
+                              colors: [
+                                quranLight,
+                                quranSolid,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: quranSolid,
+                                offset: Offset(0, 15),
+                                blurRadius: 25,
                               ),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: quranSolid,
-                                  offset: Offset(0, 15),
-                                  blurRadius: 25,
+                            ],
+                          ),
+                          child: FittedBox(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(left: 20, top: 20),
+                                  child: Image.asset(
+                                    "assets/images/quran.png",
+                                    width: 50,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 20, bottom: 20),
+                                  child: Text(
+                                    "Al - Qur'an",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                            child: FittedBox(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 20, top: 20),
-                                    child: Image.asset(
-                                      "assets/images/quran.png",
-                                      width: 50,
-                                    ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(Routes.DAILY_PRAYER),
+                        child: Container(
+                          height: 120,
+                          width: Get.width,
+                          margin: const EdgeInsets.only(left: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: const LinearGradient(
+                              colors: [
+                                dailyPrayerLight,
+                                dailyPrayerSolid,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: dailyPrayerSolid,
+                                offset: Offset(0, 15),
+                                blurRadius: 25,
+                              ),
+                            ],
+                          ),
+                          child: FittedBox(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(left: 20, top: 20),
+                                  child: Image.asset(
+                                    "assets/images/daily-prayer.png",
+                                    width: 50,
+                                    color: Colors.white,
                                   ),
-                                  const SizedBox(height: 10),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, bottom: 20),
-                                    child: Text(
-                                      "Al - Qur'an",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 20, bottom: 20),
+                                  child: Text(
+                                    "Doa Sehari - Hari",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                        color: Colors.white),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        GestureDetector(
-                          onTap: () => Get.toNamed(Routes.DAILY_PRAYER),
-                          child: Container(
-                            height: 120,
-                            width: Get.width,
-                            margin: const EdgeInsets.only(left: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: [
-                                  dailyPrayerLight,
-                                  dailyPrayerSolid,
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: dailyPrayerSolid,
-                                  offset: Offset(0, 15),
-                                  blurRadius: 25,
                                 ),
                               ],
                             ),
-                            child: FittedBox(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 20, top: 20),
-                                    child: Image.asset(
-                                      "assets/images/daily-prayer.png",
-                                      width: 50,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, bottom: 20),
-                                    child: Text(
-                                      "Doa Sehari - Hari",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // PEMISAH - ASMAUL HUNSA & BOOKMARK
-                  const SizedBox(width: 30),
-                  Flexible(
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.toNamed(Routes.ASMAUL_HUSNA),
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 20),
-                            height: 120,
-                            width: Get.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: [
-                                  asmaulHusnaLight,
-                                  asmaulHusnaSolid,
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: asmaulHusnaSolid,
-                                  offset: Offset(0, 15),
-                                  blurRadius: 25,
-                                ),
-                              ],
-                            ),
-                            child: FittedBox(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 20, top: 20),
-                                    child: Image.asset(
-                                      "assets/images/icon-asmaul-husna.png",
-                                      width: 50,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, bottom: 20),
-                                    child: Text(
-                                      "Asmaul Husna",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        GestureDetector(
-                          onTap: () => Get.toNamed(Routes.BOOKMARK),
-                          child: Container(
-                            height: 120,
-                            width: Get.width,
-                            margin: const EdgeInsets.only(right: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: [
-                                  bookmarkLight,
-                                  bookmarkSolid,
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: bookmarkSolid,
-                                  offset: Offset(0, 15),
-                                  blurRadius: 25,
-                                ),
-                              ],
-                            ),
-                            child: FittedBox(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    alignment: Alignment.centerLeft,
-                                    margin: const EdgeInsets.only(
-                                        left: 20, top: 20),
-                                    child: Image.asset(
-                                      "assets/images/bookmark.png",
-                                      width: 50,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 20, bottom: 20),
-                                    child: Text(
-                                      "Bookmark",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              const Text(
-                "✨ Daily Reminder ✨",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              FutureBuilder(
-                future: controller.getQuote(),
-                builder: (context, snap) {
-                  if (snap.connectionState == ConnectionState.waiting) {
-                    return Shimmer.fromColors(
-                      baseColor: const Color(0xffFFFAD7),
-                      highlightColor: const Color(0xffFFE4A7),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
-                        width: Get.width,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              width: 10, color: Colors.yellow.shade300),
-                          color: Colors.grey,
                         ),
                       ),
-                    );
-                  }
-                  if (!snap.hasData) {
-                    Container(
-                      width: Get.width - 50,
+                    ],
+                  ),
+                ),
+
+                // PEMISAH - ASMAUL HUNSA & BOOKMARK
+                const SizedBox(width: 30),
+                Flexible(
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.toNamed(Routes.ASMAUL_HUSNA),
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 20),
+                          height: 120,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: const LinearGradient(
+                              colors: [
+                                asmaulHusnaLight,
+                                asmaulHusnaSolid,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: asmaulHusnaSolid,
+                                offset: Offset(0, 15),
+                                blurRadius: 25,
+                              ),
+                            ],
+                          ),
+                          child: FittedBox(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(left: 20, top: 20),
+                                  child: Image.asset(
+                                    "assets/images/icon-asmaul-husna.png",
+                                    width: 50,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 20, bottom: 20),
+                                  child: Text(
+                                    "Asmaul Husna",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(Routes.BOOKMARK),
+                        child: Container(
+                          height: 120,
+                          width: Get.width,
+                          margin: const EdgeInsets.only(right: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: const LinearGradient(
+                              colors: [
+                                bookmarkLight,
+                                bookmarkSolid,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: bookmarkSolid,
+                                offset: Offset(0, 15),
+                                blurRadius: 25,
+                              ),
+                            ],
+                          ),
+                          child: FittedBox(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin:
+                                      const EdgeInsets.only(left: 20, top: 20),
+                                  child: Image.asset(
+                                    "assets/images/bookmark.png",
+                                    width: 50,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 20, bottom: 20),
+                                  child: Text(
+                                    "Bookmark",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            const Text(
+              "✨ Daily Reminder ✨",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            FutureBuilder(
+              future: controller.getQuote(),
+              builder: (context, snap) {
+                if (snap.connectionState == ConnectionState.waiting) {
+                  return Shimmer.fromColors(
+                    baseColor: const Color(0xffFFFAD7),
+                    highlightColor: const Color(0xffFFE4A7),
+                    child: Container(
                       margin: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 20),
-                      padding: const EdgeInsets.all(20),
+                      width: Get.width,
+                      height: 120,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        border:
-                            Border.all(width: 2, color: Colors.yellow.shade300),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xffFFFAD7),
-                            Color(0xffFFE4A7),
-                          ],
-                        ),
+                        border: Border.all(
+                            width: 10, color: Colors.yellow.shade300),
+                        color: Colors.grey,
                       ),
-                      child: const Center(
-                        child: Text("Tidak ada kata pengingat"),
-                      ),
-                    );
-                  }
-                  DataQuote? dataQuote = snap.data;
-                  return Container(
+                    ),
+                  );
+                }
+                if (!snap.hasData) {
+                  Container(
                     width: Get.width - 50,
                     margin: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 20),
@@ -785,25 +775,45 @@ class HomeView extends GetView<HomeController> {
                         ],
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "${dataQuote!.text}",
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "- ${dataQuote.reference} -",
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                    child: const Center(
+                      child: Text("Tidak ada kata pengingat"),
                     ),
                   );
-                },
-              ),
-            ],
-          );
-        }),
+                }
+                DataQuote? dataQuote = snap.data;
+                return Container(
+                  width: Get.width - 50,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(width: 2, color: Colors.yellow.shade300),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xffFFFAD7),
+                        Color(0xffFFE4A7),
+                      ],
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        "${dataQuote!.text}",
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "- ${dataQuote.reference} -",
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -25,6 +25,7 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
   final FlutterTts flutterTts = FlutterTts();
 
   bool hasPermission = false;
+  bool isGpsEnabled = false;
 
   Animation<double>? animation;
   AnimationController? animationController;
@@ -90,10 +91,26 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
 
   Future<void> getPermission() async {
     if (!hasPermission) {
-      var status = await Permission.location.request();
-      if (status.isGranted) {
-        hasPermission = true;
-        update();
+      var serviceStatus = await Permission.location.serviceStatus;
+      if (serviceStatus.isEnabled) {
+        var status = await Permission.location.request();
+        if (status.isGranted) {
+          hasPermission = true;
+          print("Permission true");
+          await Permission.location.serviceStatus.isEnabled;
+          update(['qiblah']);
+        }
+      } else {
+        Get.defaultDialog(
+            title: "Perhatian",
+            content: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: const Text(
+                "Untuk mengaktifkan arah kiblat, harap nyalakan GPS antum",
+                textAlign: TextAlign.center,
+              ),
+            ));
+        Future.delayed(const Duration(seconds: 5), () => Get.back());
       }
     }
   }
