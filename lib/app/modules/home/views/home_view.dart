@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:quran_app/app/constant/color.dart';
+import 'package:quran_app/app/data/models/prayer_time.dart';
 import 'package:quran_app/app/data/models/quotes.dart';
 import 'package:quran_app/app/routes/app_pages.dart';
 import 'package:shimmer/shimmer.dart';
@@ -172,57 +174,90 @@ class HomeView extends GetView<HomeController> {
                             children: [
                               Flexible(
                                 flex: 2,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "${c.daerah}, ${c.kota}",
-                                        style: const TextStyle(fontSize: 10),
-                                      ),
-                                    ),
-                                    TimeShalat(
-                                        jamSolat: "04:42", waktuSolat: "Subuh"),
-                                    FittedBox(
-                                      child: Row(
-                                        children: [
-                                          TimeShalat(
-                                              jamSolat: "04:42",
-                                              waktuSolat: "Subuh"),
-                                          const SizedBox(width: 20),
-                                          TimeShalat(
-                                              jamSolat: "11:45",
-                                              waktuSolat: "Dhuhur"),
-                                          const SizedBox(width: 20),
-                                          TimeShalat(
-                                              jamSolat: "15:15",
-                                              waktuSolat: "Ashar"),
-                                          const SizedBox(width: 20),
-                                          TimeShalat(
-                                              jamSolat: "17:50",
-                                              waktuSolat: "Maghrib"),
-                                          const SizedBox(width: 20),
-                                          TimeShalat(
-                                              jamSolat: "19:07",
-                                              waktuSolat: "Isha"),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: FutureBuilder(
+                                      future: c.getPrayerTime(),
+                                      builder: (context, snap) {
+                                        if (snap.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                              child: CircularProgressIndicator(
+                                            color: Colors.deepPurple.shade700,
+                                            backgroundColor:
+                                                Colors.deepPurple.shade400,
+                                          ));
+                                        }
+
+                                        if (!snap.hasData) {
+                                          return const Center(
+                                            child: Text("Tidak ada data"),
+                                          );
+                                        }
+
+                                        DataJadwal dataJadwal = snap.data!;
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              "Jadwal Solat",
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                            Text(
+                                              "${DateFormat.EEEE('id_ID').format(DateTime.now())}, ${DateFormat.d('id_ID').add_MMMM().add_y().format(DateTime.now())}",
+                                              style:
+                                                  const TextStyle(fontSize: 12),
+                                            ),
+                                            Text(
+                                              "${c.daerah}, ${c.kota}",
+                                              style:
+                                                  const TextStyle(fontSize: 12),
+                                            ),
+                                            FittedBox(
+                                              child: Row(
+                                                children: [
+                                                  TimeShalat(
+                                                      jamSolat:
+                                                          dataJadwal.subuh,
+                                                      waktuSolat: "Subuh"),
+                                                  const SizedBox(width: 20),
+                                                  TimeShalat(
+                                                      jamSolat:
+                                                          dataJadwal.dzuhur,
+                                                      waktuSolat: "Dzuhur"),
+                                                  const SizedBox(width: 20),
+                                                  TimeShalat(
+                                                      jamSolat:
+                                                          dataJadwal.ashar,
+                                                      waktuSolat: "Ashar"),
+                                                  const SizedBox(width: 20),
+                                                  TimeShalat(
+                                                      jamSolat:
+                                                          dataJadwal.maghrib,
+                                                      waktuSolat: "Maghrib"),
+                                                  const SizedBox(width: 20),
+                                                  TimeShalat(
+                                                    jamSolat: dataJadwal.isya,
+                                                    waktuSolat: "Isya",
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }),
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  IconButton(
-                                    onPressed: () async {
-                                      await c.getLocation();
-                                    },
-                                    icon: const Icon(Icons.refresh),
-                                    hoverColor: Colors.amber,
-                                  ),
-                                ],
+                              Container(
+                                alignment: Alignment.topCenter,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    await c.getLocation();
+                                    await c.getPrayerTime();
+                                  },
+                                  child: const Icon(Icons.refresh),
+                                ),
                               ),
                               // COMPASS KIBLAT
                               Flexible(

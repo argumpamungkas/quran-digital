@@ -21,6 +21,7 @@ dependencies:
   flutter_tts: 3.7.0
   permission_handler: 10.4.3
   flutter_qiblah: 2.2.0
+  intl: 0.18.1
   flutter: 
     sdk: flutter
 
