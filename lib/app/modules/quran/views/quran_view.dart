@@ -100,7 +100,11 @@ class QuranView extends GetView<QuranController> {
                           image: AssetImage("assets/images/octagon-list.png"),
                           color: Colors.deepPurple,
                         ),
-                        Center(child: Text("${dataSurah.number}")),
+                        Center(
+                            child: Text(
+                          "${dataSurah.number}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        )),
                       ],
                     ),
                   ),

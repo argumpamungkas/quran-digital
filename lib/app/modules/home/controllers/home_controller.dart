@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'dart:convert';
@@ -25,7 +27,9 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
   final FlutterTts flutterTts = FlutterTts();
 
   bool hasPermission = false;
-  bool isGpsEnabled = false;
+
+  String daerah = "";
+  String kota = "";
 
   Animation<double>? animation;
   AnimationController? animationController;
@@ -91,14 +95,28 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
 
   Future<void> getPermission() async {
     if (!hasPermission) {
-      var serviceStatus = await Permission.location.serviceStatus;
-      if (serviceStatus.isEnabled) {
-        var status = await Permission.location.request();
-        if (status.isGranted) {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (serviceEnabled) {
+        LocationPermission locationPermission =
+            await Geolocator.requestPermission();
+        if (locationPermission == LocationPermission.denied) {
+          Future.delayed(
+            const Duration(milliseconds: 500),
+            () => Get.defaultDialog(
+              title: "Perhatian",
+              content: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: const Text(
+                  "Lokasi tidak diberikan izin",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          );
+          Future.delayed(const Duration(milliseconds: 2500), () => Get.back());
+        } else {
           hasPermission = true;
-          print("Permission true");
-          await Permission.location.serviceStatus.isEnabled;
-          update(['qiblah']);
+          await getLocation();
         }
       } else {
         Get.defaultDialog(
@@ -106,13 +124,29 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
             content: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: const Text(
-                "Untuk mengaktifkan arah kiblat, harap nyalakan GPS antum",
+                "Untuk mendapatkan jadwal solat dan arah kiblat, harap nyalakan GPS antum",
                 textAlign: TextAlign.center,
               ),
             ));
         Future.delayed(const Duration(seconds: 5), () => Get.back());
       }
     }
+  }
+
+  Future<void> getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.medium,
+    );
+
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    daerah = placemarks.first.locality!;
+    kota = placemarks.first.subAdministrativeArea!;
+    if (kota.split(" ").first == "Kabupaten") {
+      kota = "Kab. ${kota.split(" ").last}";
+    }
+    update(['permissionLocation']);
   }
 
   @override

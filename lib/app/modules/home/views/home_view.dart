@@ -129,166 +129,173 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             const SizedBox(height: 15),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              width: Get.width,
-              height: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: const LinearGradient(
-                  colors: [
-                    puprleLight,
-                    puprleSolid,
-                  ],
-                ),
-                boxShadow: const [
-                  BoxShadow(
-                    color: puprleLight,
-                    offset: Offset(0, 10),
-                    blurRadius: 15,
-                    spreadRadius: 1,
-                  )
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Jadwal Solat Selanjutnya"),
-                          TimeShalat(jamSolat: "11:45", waktuSolat: "Dhuhur"),
-                          FittedBox(
-                            child: Row(
-                              children: [
-                                TimeShalat(
-                                    jamSolat: "04:30", waktuSolat: "Shubuh"),
-                                const SizedBox(width: 20),
-                                TimeShalat(
-                                    jamSolat: "11:45", waktuSolat: "Dhuhur"),
-                                const SizedBox(width: 20),
-                                TimeShalat(
-                                    jamSolat: "15:15", waktuSolat: "Ashar"),
-                                const SizedBox(width: 20),
-                                TimeShalat(
-                                    jamSolat: "17:50", waktuSolat: "Maghrib"),
-                                const SizedBox(width: 20),
-                                TimeShalat(
-                                    jamSolat: "19:07", waktuSolat: "Isha"),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+            GetBuilder<HomeController>(
+              id: 'permissionLocation',
+              builder: (c) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  width: Get.width,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: const LinearGradient(
+                      colors: [
+                        puprleLight,
+                        puprleSolid,
+                      ],
                     ),
-                    // COMPASS KIBLAT
-                    GetBuilder<HomeController>(
-                        id: "qiblah",
-                        builder: (c) {
-                          return Flexible(
-                            flex: 1,
-                            child: FutureBuilder(
-                              future: c.getPermission(),
-                              builder: (context, snap) {
-                                if (snap.connectionState ==
-                                    ConnectionState.waiting) {
-                                  print("Waiting");
-                                  return Container(
-                                    margin: const EdgeInsets.only(right: 20),
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: Colors.deepPurple,
-                                      color: Colors.deepPurple.shade800,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: puprleLight,
+                        offset: Offset(0, 10),
+                        blurRadius: 15,
+                        spreadRadius: 1,
+                      )
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: FutureBuilder(
+                      future: c.getPermission(),
+                      builder: (context, snap) {
+                        if (snap.connectionState == ConnectionState.waiting) {
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.deepPurple.shade700,
+                            backgroundColor: Colors.deepPurple.shade400,
+                          ));
+                        }
+
+                        if (c.hasPermission) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "${c.daerah}, ${c.kota}",
+                                        style: const TextStyle(fontSize: 10),
+                                      ),
                                     ),
-                                  );
-                                } else if (c.hasPermission) {
-                                  Future.delayed(Duration(seconds: 5));
-                                  // STREAM BUILDER AFTER GET PERMISSION
-                                  print("GET STREAM");
-                                  return StreamBuilder(
-                                    stream: FlutterQiblah.qiblahStream,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 20),
-                                          child: CircularProgressIndicator(
-                                            backgroundColor: Colors.deepPurple,
-                                            color: Colors.deepPurple.shade800,
+                                    TimeShalat(
+                                        jamSolat: "04:42", waktuSolat: "Subuh"),
+                                    FittedBox(
+                                      child: Row(
+                                        children: [
+                                          TimeShalat(
+                                              jamSolat: "04:42",
+                                              waktuSolat: "Subuh"),
+                                          const SizedBox(width: 20),
+                                          TimeShalat(
+                                              jamSolat: "11:45",
+                                              waktuSolat: "Dhuhur"),
+                                          const SizedBox(width: 20),
+                                          TimeShalat(
+                                              jamSolat: "15:15",
+                                              waktuSolat: "Ashar"),
+                                          const SizedBox(width: 20),
+                                          TimeShalat(
+                                              jamSolat: "17:50",
+                                              waktuSolat: "Maghrib"),
+                                          const SizedBox(width: 20),
+                                          TimeShalat(
+                                              jamSolat: "19:07",
+                                              waktuSolat: "Isha"),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  IconButton(
+                                    onPressed: () async {
+                                      await c.getLocation();
+                                    },
+                                    icon: const Icon(Icons.refresh),
+                                    hoverColor: Colors.amber,
+                                  ),
+                                ],
+                              ),
+                              // COMPASS KIBLAT
+                              Flexible(
+                                flex: 1,
+                                child: StreamBuilder(
+                                  stream: FlutterQiblah.qiblahStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 20),
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: Colors.deepPurple,
+                                          color: Colors.deepPurple.shade800,
+                                        ),
+                                      );
+                                    }
+
+                                    final qiblahDirection = snapshot.data;
+
+                                    c.animation = Tween(
+                                      begin: c.begin,
+                                      end: (qiblahDirection!.qiblah *
+                                          (pi / 180) *
+                                          -1),
+                                    ).animate(c.animationController!);
+                                    c.begin = (qiblahDirection.qiblah *
+                                        (pi / 180) *
+                                        -1);
+                                    c.animationController!.forward(from: 0);
+
+                                    return AnimatedBuilder(
+                                      animation: c.animation!,
+                                      builder: (context, child) {
+                                        return Transform.rotate(
+                                          angle: c.animation!.value,
+                                          child: Image.asset(
+                                            "assets/images/compass-qiblah.png",
                                           ),
                                         );
-                                      }
-
-                                      final qiblahDirection = snapshot.data;
-
-                                      c.animation = Tween(
-                                        begin: c.begin,
-                                        end: (qiblahDirection!.qiblah *
-                                            (pi / 180) *
-                                            -1),
-                                      ).animate(c.animationController!);
-                                      c.begin = (qiblahDirection.qiblah *
-                                          (pi / 180) *
-                                          -1);
-                                      c.animationController!.forward(from: 0);
-
-                                      return AnimatedBuilder(
-                                        animation: c.animation!,
-                                        builder: (context, child) {
-                                          return Transform.rotate(
-                                            angle: c.animation!.value,
-                                            child: Image.asset(
-                                              "assets/images/compass-qiblah.png",
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  return Container(
-                                    margin: const EdgeInsets.only(right: 20),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          "Kiblat\ntidak terdeteksi",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.white),
-                                        ),
-                                        OutlinedButton(
-                                            onPressed: () async {
-                                              await c.getPermission();
-                                            },
-                                            style: OutlinedButton.styleFrom(
-                                                padding:
-                                                    const EdgeInsets.all(0),
-                                                foregroundColor: Colors.white,
-                                                side: const BorderSide(
-                                                    width: 2,
-                                                    color: Colors.white)),
-                                            child: const Text(
-                                              "Sinkronisasi",
-                                              style: TextStyle(fontSize: 8),
-                                            )),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           );
-                        }),
-                  ],
-                ),
-              ),
+                        } else {
+                          return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Sinkronisasi untuk mendapatkan\njadwal sholat daerah antum dan arah kiblat",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    await c.getPermission();
+                                  },
+                                  child: const Text(
+                                    "Sinkronisasi",
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                              ]);
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 20),
             GetBuilder<HomeController>(builder: (c) {
