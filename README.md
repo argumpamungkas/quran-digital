@@ -1,8 +1,6 @@
-# Al-Quran (Muslim Activity)
+## Al-Quran (Muslim Activity)
 
 This apps using GetX State Management.
-
-## Mockup Aplikasi
 
 ![Quran](https://github.com/argumpamungkas/quran-digital/assets/53247359/96334cf3-16f4-4c9c-8692-5b7dbdb184c9)
   
@@ -11,11 +9,11 @@ This apps using GetX State Management.
 ## Uses
 
 API :
-- [Al-Quran]("https://api.quran.gading.dev/surah")
-- [Asmaul Husna]("https://apimuslimify.vercel.app/api/v2/asmaulhusna")
-- [Jadwal Solat]("https://fathimah.docs.apiary.io/#reference/sholat")
-- [Daily Reminder]("https://apimuslimify.vercel.app/api/v2/quote")
-- [Daily Prayer]("https://doa-doa-api-ahmadramadhan.fly.dev/api")
+- [Al-Quran](https://api.quran.gading.dev/surah)
+- [Asmaul Husna](https://apimuslimify.vercel.app/api/v2/asmaulhusna)
+- [Jadwal Solat](https://fathimah.docs.apiary.io/#reference/sholat)
+- [Daily Reminder](https://apimuslimify.vercel.app/api/v2/quote)
+- [Daily Prayer](https://doa-doa-api-ahmadramadhan.fly.dev/api)
 
 Package :
 - get
