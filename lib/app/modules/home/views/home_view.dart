@@ -200,19 +200,46 @@ class HomeView extends GetView<HomeController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
-                                              "Jadwal Solat",
-                                              style: TextStyle(fontSize: 14),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  "Jadwal Sholat",
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                                const SizedBox(width: 5),
+                                                Container(
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      await c.getLocation();
+                                                      await c.getPrayerTime();
+                                                    },
+                                                    child: const Icon(
+                                                      Icons.refresh,
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              "${DateFormat.EEEE('id_ID').format(DateTime.now())}, ${DateFormat.d('id_ID').add_MMMM().add_y().format(DateTime.now())}",
-                                              style:
-                                                  const TextStyle(fontSize: 12),
-                                            ),
-                                            Text(
-                                              "${c.daerah}, ${c.kota}",
-                                              style:
-                                                  const TextStyle(fontSize: 12),
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  "${DateFormat.EEEE('id_ID').format(DateTime.now())}, ${DateFormat.d('id_ID').add_MMMM().add_y().format(DateTime.now())}",
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  "${c.daerah}, ${c.kota}",
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                ),
+                                              ],
                                             ),
                                             FittedBox(
                                               child: Row(
@@ -247,16 +274,6 @@ class HomeView extends GetView<HomeController> {
                                           ],
                                         );
                                       }),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.topCenter,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    await c.getLocation();
-                                    await c.getPrayerTime();
-                                  },
-                                  child: const Icon(Icons.refresh),
                                 ),
                               ),
                               // COMPASS KIBLAT
@@ -315,10 +332,17 @@ class HomeView extends GetView<HomeController> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 10),
                                 ),
-                                ElevatedButton(
+                                OutlinedButton(
                                   onPressed: () async {
                                     await c.getPermission();
                                   },
+                                  style: OutlinedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    foregroundColor: Colors.deepPurple.shade800,
+                                    side: BorderSide(
+                                        width: 1,
+                                        color: Colors.deepPurple.shade800),
+                                  ),
                                   child: const Text(
                                     "Sinkronisasi",
                                     style: TextStyle(fontSize: 10),

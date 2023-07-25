@@ -78,7 +78,7 @@ class IntroductionView extends GetView<IntroductionController> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 ),
-                child: const Text("Mulai"),
+                child: const Text("Masuk"),
               )
             ],
           ),

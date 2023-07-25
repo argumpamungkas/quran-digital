@@ -7,7 +7,6 @@ import 'package:get_storage/get_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:quran_app/app/data/models/base_url.dart';
 import 'package:quran_app/app/data/models/quotes.dart';
 import 'package:sqflite/sqflite.dart';
@@ -144,8 +143,6 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
 
-    print(placemarks);
-
     daerah = placemarks.first.locality!;
     if (daerah.split(" ").first == "Kecamatan") {
       List<String> namaDaerah = daerah.split(" ");
@@ -159,18 +156,18 @@ class HomeController extends GetxController with SingleGetTickerProviderMixin {
       namaKota.removeWhere((element) => element.toLowerCase() == "kabupaten");
       kota = namaKota.join(" ");
     }
-    print("NAMA KOTA BARU -> $kota");
+
     String dateFormat = DateTime.now().toString();
     date = dateFormat.split(" ").first;
-    print("date time -> $date");
     update(['permissionLocation']);
   }
 
   Future<DataJadwal> getPrayerTime() async {
+    String id = "";
     Uri url = Uri.parse("https://api.banghasan.com/sholat/format/json/kota");
     var responseAllKota = await http.get(url);
+
     List allKota = jsonDecode(responseAllKota.body)['kota'];
-    String id = "";
     for (var element in allKota) {
       if (element['nama'] == kota.toUpperCase()) {
         id = element["id"];
