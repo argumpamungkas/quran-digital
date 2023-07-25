@@ -6,7 +6,7 @@ This apps using GetX State Management.
   
   This application contains quran equipped with audio and tafsir, prayer times according to the user's location equipped with qibla direction, asmaul husna, daily prayer and daily reminder, and bookmarks to save certain verses.
 
-## Uses
+## Using
 
 API :
 - [Al-Quran](https://api.quran.gading.dev/surah)
