@@ -1,6 +1,6 @@
 ## Al-Quran (Muslim Activity)
 
-This apps using GetX State Management.
+This app uses GetX State Management.
 
 ![Quran](https://github.com/argumpamungkas/quran-digital/assets/53247359/96334cf3-16f4-4c9c-8692-5b7dbdb184c9)
   
