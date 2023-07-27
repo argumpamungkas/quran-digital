@@ -28,15 +28,6 @@ class DetailSurahView extends GetView<DetailSurahController> {
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.deepPurple.shade800,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.toNamed(Routes.BOOKMARK);
-            },
-            icon: const Icon(Icons.book),
-            color: Colors.deepPurple.shade800,
-          ),
-        ],
       ),
       body: FutureBuilder(
         future: controller.getDetailSurah(Get.arguments["number"].toString()),

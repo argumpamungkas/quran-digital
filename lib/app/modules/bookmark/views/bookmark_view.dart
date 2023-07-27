@@ -51,16 +51,14 @@ class BookmarkView extends GetView<BookmarkController> {
                             Map<String, dynamic> dataBookmark =
                                 snap.data![index];
                             return ListTile(
-                              onTap: () => Get.toNamed(
-                                Routes.DETAIL_SURAH,
-                                arguments: {
-                                  "name": dataBookmark['surah']
-                                      .toString()
-                                      .replaceAll("+", "'"),
-                                  "number": dataBookmark['number_surah'],
-                                  "bookmark": dataBookmark,
-                                },
-                              ),
+                              onTap: () =>
+                                  Get.toNamed(Routes.DETAIL_SURAH, arguments: {
+                                "name": dataBookmark['surah']
+                                    .toString()
+                                    .replaceAll("+", "'"),
+                                "number": dataBookmark['number_surah'],
+                                "bookmark": dataBookmark,
+                              }),
                               leading: Container(
                                 height: 50,
                                 width: 50,
